@@ -17,9 +17,9 @@ export default function TypeWriter() {
   const [delta, setDelta] = useState(150)
 
   const tick = useCallback(() => {
-    let currentIndex = currentWord % words.length
-    let fullWord = words[currentIndex]
-    let updatedText = isDeleting 
+    const currentIndex = currentWord % words.length
+    const fullWord = words[currentIndex]
+    const updatedText = isDeleting 
       ? fullWord.substring(0, text.length - 1)
       : fullWord.substring(0, text.length + 1)
 
@@ -36,7 +36,7 @@ export default function TypeWriter() {
   }, [currentWord, isDeleting, text])
 
   useEffect(() => {
-    let ticker = setInterval(() => {
+    const ticker = setInterval(() => {
       tick()
     }, delta)
 
