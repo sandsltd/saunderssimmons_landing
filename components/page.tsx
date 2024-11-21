@@ -56,6 +56,30 @@ interface IndustryTemplate {
   description: string;
 }
 
+// Add this near the top with your other interfaces
+interface Feature {
+  title: string;
+  description: string;
+}
+
+const features: Feature[] = [
+  {
+    title: "Beautiful Design",
+    description: "Stunning, modern websites that make your business stand out from the crowd."
+  },
+  {
+    title: "No Start-Up Costs",
+    description: "Get started with £0 upfront. Only pay when you're happy with your website."
+  },
+  {
+    title: "Blazing Fast",
+    description: "Lightning-quick loading times that keep your customers engaged."
+  },
+  {
+    title: "Tailored for Mobile",
+    description: "Perfect viewing experience on all devices, from phones to desktops."
+  }
+];
 
 export default function BlockPage() {
   const [isPlaying, setIsPlaying] = useState(false)
@@ -975,84 +999,6 @@ export default function BlockPage() {
     </div>
   )
 }
-const features = [
-  {
-    title: "Beautiful Design",
-    description: "Your website will be crafted with care using the latest in modern web design. Sleek, speedy, and mobile-friendly."
-  },
-  {
-    title: "No Start-Up Costs",
-    description: "Say goodbye to big upfront payments. We believe in helping small businesses get online without breaking the bank."
-  },
-  {
-    title: "Blazing Fast",
-    description: "We build on Next.js, ensuring your site loads faster than you can say 'search engine rankings.'"
-  },
-  {
-    title: "Tailored for Mobile",
-    description: "Over 60% of web traffic is on mobile, so we optimise your site to look flawless on any device."
-  }
-]
-
-const steps = [
-  "Fill in our quick form — it only takes 2 minutes!",
-  "We'll reach out to learn more about your vision.",
-  "Your free website will be ready in no time!"
-]
-
-const faqs = [
-  {
-    question: "Is it really free to get started?",
-    answer: "Absolutely! We only charge for hosting once your website is live."
-  },
-  {
-    question: "What's included in the hosting fee?",
-    answer: "Hosting, security, regular backups, and ongoing support to keep your site running smoothly."
-  },
-  {
-    question: "How long will it take to build my site?",
-    answer: "Most sites are ready in just 7 days after our initial chat."
-  }
-]
-
-const packages = [
-  {
-    name: "Basic",
-    price: "£29/month",
-    features: [
-      "5-Page Website",
-      "Mobile Responsive",
-      "Basic SEO",
-      "Contact Form",
-      "Monthly Updates"
-    ]
-  },
-  {
-    name: "Professional",
-    price: "£49/month",
-    popular: true,
-    features: [
-      "10-Page Website",
-      "Advanced SEO",
-      "Blog Integration",
-      "Social Media Integration",
-      "Weekly Updates",
-      "Analytics Dashboard"
-    ]
-  },
-  {
-    name: "Enterprise",
-    price: "Custom",
-    features: [
-      "Unlimited Pages",
-      "E-commerce Integration",
-      "Custom Features",
-      "Priority Support",
-      "Daily Updates",
-      "Custom Analytics"
-    ]
-  }
-]
 
 // Helper function to get feature icons
 function getFeatureIcon(title: string) {
