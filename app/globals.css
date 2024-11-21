@@ -80,3 +80,34 @@ body {
 html {
   scroll-behavior: smooth;
 }
+
+/* Add these animations at the end of the file */
+@keyframes text-shimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+.animate-text-shimmer {
+  animation: text-shimmer 4s linear infinite;
+  background-size: 200% auto;
+}
+
+@keyframes gradient-x {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animate-gradient-x {
+  animation: gradient-x 15s ease infinite;
+  background-size: 400% 400%;
+}
+
+/* Add any other custom animations or styles here */

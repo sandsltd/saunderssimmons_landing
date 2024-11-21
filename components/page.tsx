@@ -2,10 +2,10 @@
 
 import AnimatedHero from './AnimatedHero'
 import { motion } from 'framer-motion'
-import { FaRocket, FaPalette, FaBolt, FaMobile, FaCheck, FaClock, FaUsers, FaGoogle, FaShieldAlt, FaLock, FaMapMarkerAlt, FaHandshake, FaUmbrella, FaStore, FaHardHat, FaUtensils, FaBriefcase, FaCut, FaShoppingBag, } from 'react-icons/fa'
+import { FaRocket, FaPalette, FaBolt, FaMobile, FaCheck, FaGoogle, FaShieldAlt, FaLock, FaMapMarkerAlt, FaHandshake, FaUmbrella, FaStore, FaHardHat, FaUtensils, FaBriefcase, FaCut, FaShoppingBag, FaPlay, FaPause, FaWhatsapp } from 'react-icons/fa'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useState, useEffect } from 'react'
+import { useState, useRef } from 'react'
 import ContactForm from './ContactForm'
 
 
@@ -56,33 +56,50 @@ interface IndustryTemplate {
   description: string;
 }
 
-interface FeatureCategory {
-  category: string;
-  icon: typeof FaCheck | typeof FaRocket | typeof FaShieldAlt | typeof FaMobile;
-  features: string[];
-}
 
 export default function BlockPage() {
   const [isPlaying, setIsPlaying] = useState(false)
+  const videoRef = useRef<HTMLVideoElement>(null)
 
-  useEffect(() => {
-    const video = document.getElementById('case-study-video') as HTMLVideoElement
-    if (video) {
-      const handlePlay = () => setIsPlaying(true)
-      const handlePause = () => setIsPlaying(false)
-      const handleEnded = () => setIsPlaying(false)
+  // Handle play/pause with proper error handling
+  const handlePlayPause = () => {
+    const video = videoRef.current;
+    if (!video) return;
 
-      video.addEventListener('play', handlePlay)
-      video.addEventListener('pause', handlePause)
-      video.addEventListener('ended', handleEnded)
-
-      return () => {
-        video.removeEventListener('play', handlePlay)
-        video.removeEventListener('pause', handlePause)
-        video.removeEventListener('ended', handleEnded)
+    if (isPlaying) {
+      video.pause();
+      setIsPlaying(false);
+    } else {
+      // Create a new video element and load the source
+      video.src = "https://saunders-simmons.co.uk/wp-content/uploads/2024/09/jj_mob_testimonial.mov";
+      video.load();
+      
+      // Play the video after loading
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            setIsPlaying(true);
+            console.log('Video playing successfully');
+          })
+          .catch(error => {
+            console.error('Error attempting to play video:', error);
+            // Try playing muted first (browsers often require this)
+            video.muted = true;
+            return video.play();
+          })
+          .then(() => {
+            // If muted play works, unmute and try again
+            video.muted = false;
+            setIsPlaying(true);
+          })
+          .catch(error => {
+            console.error('Final error playing video:', error);
+            setIsPlaying(false);
+          });
       }
     }
-  }, [])
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-white">
@@ -421,7 +438,7 @@ export default function BlockPage() {
                 <ul className="space-y-3">
                   {template.features.map((feature, fIndex) => (
                     <li key={fIndex} className="flex items-center gap-2">
-                      <FaCheck className="w-5 h-5 text-green-400" />
+                      <FaCheck className="w-5 h-5 text-green-400 shrink-0" />
                       <span className="text-gray-300">{feature}</span>
                     </li>
                   ))}
@@ -429,6 +446,97 @@ export default function BlockPage() {
               </motion.div>
             ))}
           </div>
+
+          {/* Add feature note */}
+          <motion.div 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            viewport={{ once: true }}
+            className="mt-6 text-center text-gray-400 text-sm"
+          >
+            <p>† Premium features available as add-ons to enhance your website experience</p>
+          </motion.div>
+
+          {/* Don't see your industry section with enhanced styling and animations */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+            className="mt-16 text-center"
+          >
+            <div className="bg-gradient-to-b from-white/10 to-white/5 backdrop-blur-sm rounded-xl p-8 border border-blue-500/20 shadow-lg hover:shadow-blue-500/10 transition-all duration-300">
+              <motion.div
+                initial={{ scale: 0.95 }}
+                whileInView={{ scale: 1 }}
+                transition={{ duration: 0.5 }}
+                viewport={{ once: true }}
+              >
+                <h3 className="text-3xl font-bold mb-4 bg-gradient-to-r from-white to-gray-300 text-transparent bg-clip-text">
+                  Don't See Your Industry?
+                </h3>
+                
+                <div className="max-w-2xl mx-auto">
+                  <p className="text-gray-300 text-lg leading-relaxed mb-8">
+                    Every business is unique, and we love a challenge! 
+                    <span className="block mt-2">
+                      From local cafes to innovative startups, we've crafted websites that make businesses shine. 
+                      Let's work together to create something amazing for yours.
+                    </span>
+                  </p>
+                  
+                  <Link 
+                    href="#contact"
+                    className="group inline-flex items-center gap-3 bg-gradient-to-r from-blue-500 to-blue-600 
+                      px-8 py-4 rounded-xl text-lg font-semibold text-white
+                      transition-all duration-300 shadow-lg hover:shadow-blue-500/25 
+                      hover:from-blue-600 hover:to-blue-700 transform hover:-translate-y-0.5"
+                  >
+                    Let's Discuss Your Ideas
+                    <motion.span 
+                      className="group-hover:translate-x-1 transition-transform duration-300"
+                      animate={{ 
+                        x: [0, 3, 0],
+                      }}
+                      transition={{ 
+                        duration: 1.5,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                      }}
+                    >
+                      →
+                    </motion.span>
+                  </Link>
+                </div>
+
+                {/* Added decorative elements */}
+                <div className="mt-8 flex justify-center gap-4 text-gray-400">
+                  <motion.span
+                    animate={{ y: [-5, 5, -5] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                    className="text-3xl"
+                  >
+                    🎨
+                  </motion.span>
+                  <motion.span
+                    animate={{ y: [5, -5, 5] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                    className="text-3xl"
+                  >
+                    💡
+                  </motion.span>
+                  <motion.span
+                    animate={{ y: [-5, 5, -5] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                    className="text-3xl"
+                  >
+                    ✨
+                  </motion.span>
+                </div>
+              </motion.div>
+            </div>
+          </motion.div>
         </div>
       </section>
 
@@ -446,116 +554,128 @@ export default function BlockPage() {
           </motion.h2>
 
           <div className="grid md:grid-cols-2 gap-12 items-center">
+            {/* Content Column */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
-              className="space-y-6"
             >
-              <h3 className="text-2xl font-bold text-white">JJ Mobile Valeting</h3>
-              <p className="text-gray-300">
+              <h3 className="text-3xl font-bold mb-6">JJ Mobile Valeting</h3>
+              <p className="text-gray-300 mb-8">
                 A complete digital transformation for a local business, resulting in:
               </p>
               <ul className="space-y-4">
                 {[
-                  '300% increase in online bookings',
-                  'First page Google ranking',
-                  'Mobile-first design',
-                  'Integrated booking system'
-                ].map((achievement, index) => (
+                  "300% increase in online bookings",
+                  "First page Google ranking",
+                  "Mobile-first design",
+                  "Integrated booking system"
+                ].map((item, index) => (
                   <motion.li
+                    key={index}
                     initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
                     viewport={{ once: true }}
-                    key={index}
                     className="flex items-center gap-3"
                   >
-                    <div className="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
-                      <FaCheck className="w-3 h-3 text-white" />
-                    </div>
-                    <span className="text-gray-300">{achievement}</span>
+                    <FaCheck className="w-5 h-5 text-green-400 shrink-0" />
+                    <span className="text-gray-300">{item}</span>
                   </motion.li>
                 ))}
               </ul>
-              
+
               <motion.div
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="pt-6"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                viewport={{ once: true }}
+                className="mt-8"
               >
                 <Link 
-                  href="#contact" 
-                  className="inline-block bg-blue-500 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-all shadow-lg hover:bg-blue-600"
+                  href="#contact"
+                  className="inline-flex items-center gap-2 bg-blue-500 hover:bg-blue-600 
+                    px-6 py-3 rounded-lg text-white font-semibold transition-all duration-300"
                 >
                   Get Similar Results
+                  <motion.span 
+                    animate={{ x: [0, 3, 0] }}
+                    transition={{ duration: 1.5, repeat: Infinity }}
+                  >
+                    →
+                  </motion.span>
                 </Link>
               </motion.div>
             </motion.div>
 
+            {/* Image/Video Column */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
-              className="relative aspect-video bg-slate-800 rounded-xl overflow-hidden group"
+              className="relative aspect-video bg-white/5 rounded-xl overflow-hidden border border-gray-700 group"
             >
-              {/* Video container */}
-              <div className="relative aspect-video bg-slate-800 rounded-xl overflow-hidden group">
-                <div className="absolute inset-0 bg-slate-900/40 group-hover:bg-slate-900/30 transition-all duration-300"></div>
-                
-                <video 
-                  className="w-full h-full object-cover"
-                  poster="/sands_logo.png"
-                  controls
-                  playsInline
-                  preload="metadata"
-                  controlsList="nodownload"
-                  id="case-study-video"
-                >
-                  <source 
-                    src="https://saunders-simmons.co.uk/wp-content/uploads/2024/09/jj_mob_testimonial.mov"
-                    type="video/quicktime"
-                  />
-                  Your browser does not support the video tag.
-                </video>
+              {/* Thumbnail with Logo */}
+              <Image
+                src="/case_study_jj_logo_1.png"
+                alt="JJ Mobile Valeting Logo"
+                fill
+                className={`object-contain p-8 transition-opacity duration-300 ${isPlaying ? 'opacity-0' : 'opacity-100'}`}
+                priority
+              />
+              
+              {/* Video */}
+              <video
+                ref={videoRef}
+                className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${isPlaying ? 'opacity-100' : 'opacity-0'}`}
+                playsInline
+                controls={false}
+                preload="auto"
+                onEnded={() => setIsPlaying(false)}
+              />
 
-                {/* Custom play/pause button */}
-                <div 
-                  onClick={() => {
-                    const video = document.getElementById('case-study-video') as HTMLVideoElement;
-                    if (video) {
-                      if (isPlaying) {
-                        video.pause();
-                      } else {
-                        video.play();
-                      }
-                    }
-                  }}
-                  className={`absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 cursor-pointer ${!isPlaying ? 'inset-0 flex items-center justify-center' : ''}`}
-                >
-                  <div className={`w-12 h-12 rounded-full bg-black/50 hover:bg-black/75 flex items-center justify-center transition-all duration-300 ${isPlaying ? 'backdrop-blur-sm' : 'w-16 h-16 bg-blue-500/90'}`}>
-                    {isPlaying ? (
-                      <svg 
-                        className="w-6 h-6 text-white" 
-                        fill="currentColor" 
-                        viewBox="0 0 24 24"
-                      >
-                        <path fillRule="evenodd" d="M6.75 5.25a.75.75 0 01.75-.75H9a.75.75 0 01.75.75v13.5a.75.75 0 01-.75.75H7.5a.75.75 0 01-.75-.75V5.25zm7 0a.75.75 0 01.75-.75h1.5a.75.75 0 01.75.75v13.5a.75.75 0 01-.75.75h-1.5a.75.75 0 01-.75-.75V5.25z" clipRule="evenodd" />
-                      </svg>
-                    ) : (
-                      <svg 
-                        className="w-8 h-8 text-white" 
-                        fill="currentColor" 
-                        viewBox="0 0 20 20"
-                      >
-                        <path d="M6.3 2.841A1.5 1.5 0 004 4.11v11.78a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
-                      </svg>
-                    )}
-                  </div>
+              {/* Play/Pause Button */}
+              <button
+                onClick={handlePlayPause}
+                className={`absolute inset-0 flex items-center justify-center ${isPlaying ? 'opacity-0 hover:opacity-100' : 'opacity-100'} transition-opacity duration-300`}
+              >
+                <div className="bg-blue-500/90 p-4 rounded-full transform transition-transform duration-300 hover:scale-110 hover:bg-blue-600/90">
+                  {isPlaying ? (
+                    <FaPause className="w-8 h-8 text-white" />
+                  ) : (
+                    <FaPlay className="w-8 h-8 text-white ml-1" />
+                  )}
                 </div>
-              </div>
+              </button>
+
+              {/* Video Description Overlay */}
+              {!isPlaying && (
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-6">
+                  <p className="text-white text-lg font-semibold">
+                    Hear from James about his experience
+                  </p>
+                  <p className="text-gray-200 text-sm">
+                    Click to watch the full testimonial
+                  </p>
+                </div>
+              )}
+
+              {/* Progress Bar */}
+              {isPlaying && (
+                <div className="absolute bottom-0 left-0 right-0 h-1 bg-gray-800">
+                  <motion.div
+                    className="h-full bg-blue-500"
+                    initial={{ width: "0%" }}
+                    animate={{ width: "100%" }}
+                    transition={{
+                      duration: 60, // Adjust to match your video duration
+                      ease: "linear"
+                    }}
+                  />
+                </div>
+              )}
             </motion.div>
           </div>
         </div>
@@ -574,7 +694,7 @@ export default function BlockPage() {
             Who We've Worked With
           </motion.h2>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
             {localBusinesses.map((business, index) => (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -582,67 +702,23 @@ export default function BlockPage() {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
                 key={index}
-                className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-gray-700"
+                className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-gray-700 hover:border-blue-500/50 transition-colors duration-300"
               >
-                <Image
-                  src={business.logo}
-                  alt={business.name}
-                  width={120}
-                  height={40}
-                  className="mb-4"
-                />
-                <p className="text-lg font-semibold mb-1">{business.name}</p>
-                <p className="text-sm text-gray-400 mb-4">{business.location}</p>
-                <p className="text-gray-300 italic">"{business.testimonial}"</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials Section */}
-      <section className="py-20 px-4 relative overflow-hidden">
-        <div className="absolute inset-0 bg-red-500/5"></div>
-        <div className="max-w-6xl mx-auto relative">
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-            className="text-4xl font-bold text-center mb-16 text-white"
-          >
-            What Our Clients Say
-          </motion.h2>
-          
-          <div className="grid md:grid-cols-2 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <motion.div
-                initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                key={index}
-                className="relative"
-              >
-                <div className="bg-white/5 backdrop-blur-lg rounded-xl border border-gray-700 p-8 relative">
-                  {/* Quote mark decoration */}
-                  <div className="absolute -top-4 -left-4">
-                    <div className={`w-8 h-8 rounded-full ${
-                      index % 2 === 0 ? 'bg-blue-500' : 'bg-red-500'
-                    } flex items-center justify-center`}>
-                      "
-                    </div>
+                <div className="h-16 mb-4 relative">
+                  <Image
+                    src={business.logo}
+                    alt={business.name}
+                    fill
+                    className="object-contain"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <p className="text-lg font-semibold text-white">{business.name}</p>
+                  <p className="text-sm text-gray-400">{business.location}</p>
+                  <div className="text-yellow-400 flex gap-0.5">
+                    {'★'.repeat(5)}
                   </div>
-                  
-                  <p className="text-gray-300 text-lg mb-6">{testimonial.quote}</p>
-                  
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-white font-semibold">{testimonial.author}</p>
-                      <p className="text-gray-400 text-sm">{testimonial.date}</p>
-                    </div>
-                    <div className="text-yellow-400">★★★★★</div>
-                  </div>
+                  <p className="text-gray-300 italic leading-relaxed">"{business.testimonial}"</p>
                 </div>
               </motion.div>
             ))}
@@ -652,39 +728,120 @@ export default function BlockPage() {
 
       {/* Comparison Section */}
       <section className="py-20 px-4 relative">
-        <div className="absolute inset-0 bg-blue-500/5"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-blue-500/5 to-transparent"></div>
         <div className="max-w-4xl mx-auto relative">
-          <motion.h2 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             viewport={{ once: true }}
-            className="text-4xl font-bold text-center mb-16 text-white"
+            className="text-center mb-16"
           >
-            How We Compare
-          </motion.h2>
-          <div className="bg-white/5 backdrop-blur-lg rounded-xl border border-gray-700 overflow-hidden">
-            {comparisonPoints.map((point, index) => (
+            <h2 className="text-4xl font-bold bg-gradient-to-r from-white to-gray-300 text-transparent bg-clip-text mb-4">
+              How We Compare
+            </h2>
+            <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+              See how our modern approach compares to traditional web agencies. We've revolutionized the way websites are built and maintained.
+            </p>
+          </motion.div>
+
+          <div className="bg-white/5 backdrop-blur-lg rounded-2xl border border-blue-500/20 overflow-hidden shadow-xl">
+            {/* Table Headers */}
+            <div className="grid grid-cols-4 items-center p-6 border-b border-blue-500/20 bg-white/5">
+              <div className="font-semibold text-gray-300">Feature</div>
+              <div className="col-span-2 text-center font-semibold text-gray-300">Traditional Agency</div>
+              <div className="text-right font-semibold text-gray-300">Saunders & Simmons</div>
+            </div>
+
+            {[
+              {
+                feature: "Upfront Costs",
+                traditional: "£3000+",
+                yours: "£0",
+                icon: "💰",
+                description: "Start with zero upfront costs"
+              },
+              {
+                feature: "Delivery Time",
+                traditional: "4-8 weeks",
+                yours: "7 days",
+                icon: "⚡",
+                description: "Get online faster"
+              },
+              {
+                feature: "Content Writing",
+                traditional: "Extra Cost",
+                yours: "Included",
+                icon: "✍️",
+                description: "Professional content writing & stock images included"
+              }
+            ].map((point, index) => (
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
                 key={index}
-                className={`grid grid-cols-3 p-6 ${index !== comparisonPoints.length - 1 ? 'border-b border-gray-700' : ''}`}
+                className={`group grid grid-cols-4 items-center p-8 ${
+                  index !== 2 ? 'border-b border-blue-500/20' : ''
+                } hover:bg-white/5 transition-colors duration-300`}
               >
-                <div className="font-semibold">{point.feature}</div>
-                <div className="text-gray-400">{point.traditional}</div>
-                <div className="text-green-400 font-semibold">{point.yours}</div>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-3">
+                    <span className="text-2xl group-hover:scale-110 transition-transform duration-300">{point.icon}</span>
+                    <span className="font-semibold text-white">{point.feature}</span>
+                  </div>
+                  <p className="text-sm text-gray-400">{point.description}</p>
+                </div>
+                <div className="col-span-2 text-center">
+                  <div className="inline-flex items-center px-4 py-2 rounded-full bg-red-500/10 text-red-400 border border-red-500/20">
+                    {point.traditional}
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className="inline-flex items-center px-4 py-2 rounded-full bg-green-500/10 text-green-400 font-semibold border border-green-500/20">
+                    {point.yours}
+                  </div>
+                </div>
               </motion.div>
             ))}
           </div>
+
+          {/* Enhanced disclaimer styling */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            viewport={{ once: true }}
+            className="mt-6 text-center bg-white/5 backdrop-blur-sm rounded-lg p-4 border border-gray-700"
+          >
+            <p className="text-gray-300 text-sm">
+              *Figures based on average UK web agency costs reported by Approved Index, 
+              ranging from £2,500 to £6,000 for a basic business website
+            </p>
+          </motion.div>
+
+          {/* Your existing CTA button */}
+          <motion.div className="mt-8 text-center">
+            <Link 
+              href="#contact"
+              className="inline-flex items-center gap-2 bg-blue-500 hover:bg-blue-600 px-6 py-3 rounded-lg text-white font-semibold transition-all duration-300 hover:scale-105"
+            >
+              Get Started Today
+              <motion.span 
+                animate={{ x: [0, 3, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+              >
+                →
+              </motion.span>
+            </Link>
+          </motion.div>
         </div>
       </section>
 
       {/* Pricing Section */}
       <section className="py-20 px-4 relative">
-        <div className="absolute inset-0 bg-green-500/5"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-blue-500/5 to-transparent"></div>
         <div className="max-w-6xl mx-auto relative">
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
@@ -695,36 +852,41 @@ export default function BlockPage() {
           >
             Simple, Transparent Pricing
           </motion.h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            {packages.map((pkg, index) => (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                key={index}
-                className={`relative bg-white/5 backdrop-blur-lg rounded-xl border ${pkg.popular ? 'border-blue-500' : 'border-gray-700'} p-8`}
+
+          <div className="max-w-md mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+              className="bg-white/5 backdrop-blur-lg rounded-xl border border-blue-500/20 p-8 shadow-xl"
+            >
+              <h3 className="text-2xl font-bold mb-2">Just Hosting Package</h3>
+              <p className="text-3xl font-bold mb-6">£25/month <span className="text-sm font-normal text-gray-400">ex VAT</span></p>
+              <ul className="space-y-4 mb-8">
+                {[
+                  "Website Hosting",
+                  "SSL Certificate",
+                  "Regular Backups",
+                  "Security Updates",
+                  "Technical Support"
+                ].map((feature, featureIndex) => (
+                  <li key={featureIndex} className="flex items-center gap-3">
+                    <FaCheck className="w-5 h-5 text-green-400 shrink-0" />
+                    <span className="text-gray-300">{feature}</span>
+                  </li>
+                ))}
+              </ul>
+              <Link 
+                href="#contact"
+                className="block w-full py-4 px-6 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg text-center transition-colors duration-300"
               >
-                {pkg.popular && (
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-500 text-white px-4 py-1 rounded-full text-sm">
-                    Most Popular
-                  </div>
-                )}
-                <h3 className="text-2xl font-bold mb-4">{pkg.name}</h3>
-                <p className="text-3xl font-bold mb-6">{pkg.price}</p>
-                <ul className="space-y-4">
-                  {pkg.features.map((feature, featureIndex) => (
-                    <li key={featureIndex} className="flex items-center gap-3">
-                      <FaCheck className="w-5 h-5 text-green-400" />
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-                <button className={`w-full mt-8 py-4 rounded-lg font-semibold ${pkg.popular ? 'bg-blue-500 hover:bg-blue-600' : 'bg-white/10 hover:bg-white/20'}`}>
-                  Get Started
-                </button>
-              </motion.div>
-            ))}
+                Get Started
+              </Link>
+              <p className="text-sm text-gray-400 text-center mt-4">
+                12-month minimum agreement
+              </p>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -742,35 +904,71 @@ export default function BlockPage() {
             Frequently Asked Questions
           </motion.h2>
           <div className="space-y-6">
-            {faqs.map((faq, index) => (
+            {[
+              {
+                question: "Why are you offering websites for free?",
+                answer: "We believe in supporting local businesses. By removing the barrier of high upfront costs, we help small businesses establish their online presence. As your business grows, we're here to support you with additional services like SEO and advanced features when you need them."
+              },
+              {
+                question: "Do you offer SEO services?",
+                answer: "Yes! While our free website package includes basic SEO setup, we offer comprehensive SEO services to help boost your online visibility. This includes keyword research, content optimization, local SEO, and regular performance reporting. Get in touch to learn more about our SEO packages."
+              },
+              {
+                question: "What if I already have a website?",
+                answer: "No problem at all! We can redesign your existing site with a fresh, modern look and transfer it to our hosting platform. This includes updating your content, improving the user experience, and ensuring your site is mobile-friendly."
+              },
+              {
+                question: "Do you have other packages available?",
+                answer: "Yes, we offer custom packages for businesses needing additional features like e-commerce, booking systems, or advanced functionality. Please use the contact form below to discuss your specific requirements, and we'll create a tailored solution for you."
+              },
+              {
+                question: "What about domain names?",
+                answer: "We can help you register a new domain name or use your existing one. If you need a new domain, we'll help you choose and register the perfect one. If you already have a domain, we'll assist with pointing it to your new website at no extra charge."
+              },
+              {
+                question: "How long will it take to build my site?",
+                answer: "Most sites are ready within 7 days of our initial chat. We handle everything from design to content writing, making the process quick and hassle-free for you."
+              }
+            ].map((faq, index) => (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
                 key={index}
-                className="bg-white/5 backdrop-blur-lg rounded-xl border border-gray-700 p-6"
+                className="bg-white/5 backdrop-blur-lg rounded-xl border border-gray-700 p-6 hover:border-blue-500/20 transition-colors duration-300"
               >
                 <h3 className="text-xl font-semibold mb-3">{faq.question}</h3>
                 <p className="text-gray-400">{faq.answer}</p>
               </motion.div>
             ))}
           </div>
+
+          {/* WhatsApp CTA */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true }}
+            className="mt-12 text-center bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-green-500/20"
+          >
+            <p className="text-lg mb-4">Have a question? We're just a message away!</p>
+            <a 
+              href="https://wa.me/447432205615"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 px-6 py-3 rounded-lg text-white font-semibold transition-all duration-300 hover:scale-105"
+            >
+              <FaWhatsapp className="w-5 h-5" />
+              Message us on WhatsApp
+            </a>
+          </motion.div>
         </div>
       </section>
 
       {/* Contact Form Section */}
       <section id="contact" className="py-20 px-4">
         <div className="max-w-6xl mx-auto">
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-            className="text-4xl font-bold text-center mb-16"
-          >
-            Let's Get Started
-          </motion.h2>
           <ContactForm />
         </div>
       </section>
@@ -793,19 +991,6 @@ const features = [
   {
     title: "Tailored for Mobile",
     description: "Over 60% of web traffic is on mobile, so we optimise your site to look flawless on any device."
-  }
-]
-
-const testimonials = [
-  {
-    quote: "These guys built my website so well and fast that I was shocked. Literally helped so much for business. 5⭐️",
-    author: "Sheldon Jones",
-    date: "June 2024"
-  },
-  {
-    quote: "I'm so thrilled with the website tailor-made for me! Nick and Dan have been approachable, flexible, and creative throughout. Highly recommend.",
-    author: "Emily Stiles",
-    date: "May 2024"
   }
 ]
 
@@ -942,7 +1127,7 @@ const comparisonPoints = [
     yours: "7 days"
   },
   {
-    feature: "Ongoing Updates",
+    feature: "Content Writing",
     traditional: "Extra Cost",
     yours: "Included"
   }
@@ -989,71 +1174,109 @@ const technologies: Technology[] = [
 // Add these constants
 const localBusinesses: LocalBusiness[] = [
   {
-    name: "The Cottage Trading Co",
-    location: "Castle Cary",
-    industry: "Retail",
-    testimonial: "Our online shop has transformed our business. We're now reaching customers well beyond Somerset!",
-    logo: "/logos/cottage-trading.svg"
+    name: "Natalie Mae Hair Extensions",
+    location: "Dorset",
+    industry: "Beauty & Hair",
+    testimonial: "Nick and Dan have been amazing from start to finish. They've created exactly what I wanted and more. The whole process has been so easy and stress free. I couldn't recommend them enough!",
+    logo: "/natalie_mae_logo.png"
   },
   {
-    name: "The Railway Inn",
-    location: "Frome",
-    industry: "Hospitality",
-    testimonial: "Table bookings have gone through the roof since getting our new website. Proper job!",
-    logo: "/logos/railway-inn.svg"
+    name: "Stur Of The Moment",
+    location: "Sturminster Newton",
+    industry: "Retail",
+    testimonial: "Working with Nick and Dan was a pleasure from start to finish. They understood exactly what I wanted and delivered a website that exceeded my expectations.",
+    logo: "/stur_moment_logo.png"
+  },
+  {
+    name: "Hobs Bottom Forest School",
+    location: "Dorset",
+    industry: "Education",
+    testimonial: "The website is perfect and exactly what I wanted. Nick and Dan were so helpful throughout the whole process, making everything simple and straightforward.",
+    logo: "/hobs_bottom_logo.png"
+  },
+  {
+    name: "Hazelbury Bryan Hedgehog Rescue",
+    location: "Hazelbury Bryan",
+    industry: "Animal Welfare",
+    testimonial: "I went to Nick as I wanted to get together some information about hedgehogs and what to do if you find one during the day. I gave him the remit and in just a few days I had a website. Not only a website but a fantastic, well written and user friendly website. It was like magic. Dan and Nick make it all look so easy.",
+    logo: "/hedgehog_rescue_logo.png"
   }
-  // Add more local businesses
 ];
 
 const industryTemplates: IndustryTemplate[] = [
   {
     industry: "Restaurants & Pubs",
     icon: FaUtensils,
+    description: "Perfect for Somerset's fantastic food scene. Show off your dishes and connect with customers!",
     features: [
-      "Online Menu Management",
-      "Table Booking System",
+      "Online Menu Display",
       "Food & Drink Gallery",
-      "Special Events Calendar",
-      "Customer Reviews Integration"
-    ],
-    description: "Perfect for Somerset's fantastic food scene. Show off your dishes and make bookings a breeze!"
+      "Customer Reviews Integration",
+      "Table Booking System†",
+      "Special Events Calendar†"
+    ]
   },
   {
     industry: "Trades & Services",
     icon: FaHardHat,
+    description: "Ideal for builders, plumbers, and other trades. Let your work do the talking!",
     features: [
       "Project Gallery",
       "Quick Quote Forms",
       "Service Area Maps",
       "Customer Testimonials",
       "Emergency Contact Forms"
-    ],
-    description: "Ideal for builders, plumbers, and other trades. Let your work do the talking!"
+    ]
+  },
+  {
+    industry: "Retail & Shopping",
+    icon: FaShoppingBag,
+    description: "Perfect for local shops and boutiques. Showcase your products and boost your local presence!",
+    features: [
+      "Product Galleries",
+      "Opening Hours Display",
+      "Location Maps",
+      "Special Offers Section",
+      "Social Media Integration"
+    ]
+  },
+  {
+    industry: "Health & Beauty",
+    icon: FaCut,
+    description: "Ideal for salons, spas, and wellness businesses. Showcase your services beautifully!",
+    features: [
+      "Service Price Lists",
+      "Before/After Gallery",
+      "Staff Profiles",
+      "Online Booking System†",
+      "Gift Voucher System†"
+    ]
   }
 ];
 
-const websiteFeatures: FeatureCategory[] = [
+const websiteFeatures = [
   {
     category: "Core Features",
     icon: FaCheck,
     features: [
       "Mobile-First Design",
-      "Contact Forms",
-      "Google Maps",
-      "Social Media Links",
+      "Google Maps Integration",
       "Fast Loading Pages",
+      "Contact Forms",
+      "Social Media Links",
       "SSL Security"
     ]
   },
   {
-    category: "Business Growth",
+    category: "Technical Benefits",
     icon: FaRocket,
     features: [
-      "SEO Optimisation",
-      "Google Analytics",
-      "Content Management",
+      "Modern Tech Stack",
       "Regular Backups",
-      "Performance Reports"
+      "99.9% Uptime",
+      "CDN Delivery",
+      "Image Optimization",
+      "Responsive Design"
     ]
   }
 ];
