@@ -1,7 +1,7 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useState, useEffect, useCallback } from 'react'
+import { motion } from 'framer-motion'
 
 const words = [
   "Websites",
@@ -16,15 +16,7 @@ export default function TypeWriter() {
   const [text, setText] = useState('')
   const [delta, setDelta] = useState(150)
 
-  useEffect(() => {
-    let ticker = setInterval(() => {
-      tick()
-    }, delta)
-
-    return () => clearInterval(ticker)
-  }, [text, delta])
-
-  const tick = () => {
+  const tick = useCallback(() => {
     let currentIndex = currentWord % words.length
     let fullWord = words[currentIndex]
     let updatedText = isDeleting 
@@ -41,7 +33,15 @@ export default function TypeWriter() {
       setCurrentWord(currentWord + 1)
       setDelta(150)
     }
-  }
+  }, [currentWord, isDeleting, text])
+
+  useEffect(() => {
+    let ticker = setInterval(() => {
+      tick()
+    }, delta)
+
+    return () => clearInterval(ticker)
+  }, [text, delta, tick])
 
   return (
     <motion.div 
