@@ -1,5 +1,14 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
+import { TransportOptions } from 'nodemailer';
+
+interface FormData {
+  name: string;
+  businessName: string;
+  businessDescription: string;
+  email: string;
+  phone: string;
+}
 
 // Create email transporter
 const transporter = nodemailer.createTransport({
@@ -7,14 +16,14 @@ const transporter = nodemailer.createTransport({
   port: 465,
   secure: true, // true for 465, false for other ports
   auth: {
-    user: 'welcome@saunders-simmons.co.uk',
-    pass: 'geCpi2-qekwiq-behsyh'
+    user: process.env.SMTP_USER || 'welcome@saunders-simmons.co.uk',
+    pass: process.env.SMTP_PASS || 'geCpi2-qekwiq-behsyh'
   }
-});
+} as TransportOptions);
 
 export async function POST(request: Request) {
   try {
-    const formData = await request.json();
+    const formData: FormData = await request.json();
     const submissionDate = new Date().toLocaleString('en-GB', { 
       dateStyle: 'full', 
       timeStyle: 'short' 
