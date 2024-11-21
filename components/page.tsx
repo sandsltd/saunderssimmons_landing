@@ -1016,11 +1016,30 @@ function getFeatureIcon(title: string) {
   }
 }
 
-interface FormStep {
-  question: string;
-  type: 'text' | 'email' | 'radio' | 'textarea';
-  options?: string[];
-  placeholder?: string;
+interface TrustBadge {
+  text: string;
+  icon: typeof FaGoogle | typeof FaShieldAlt | typeof FaLock | typeof FaBolt | typeof FaMapMarkerAlt | typeof FaHandshake | typeof FaUmbrella;
+  description: string;
+}
+
+interface LocalBusiness {
+  name: string;
+  location: string;
+  industry: string;
+  testimonial: string;
+  logo: string;
+}
+
+interface IndustryTemplate {
+  industry: string;
+  icon: typeof FaStore | typeof FaHardHat | typeof FaUtensils | typeof FaBriefcase | typeof FaCut | typeof FaShoppingBag;
+  features: string[];
+  description: string;
+}
+
+interface Feature {
+  title: string;
+  description: string;
 }
 
 const trustBadges: TrustBadge[] = [
@@ -1061,25 +1080,6 @@ const trustBadges: TrustBadge[] = [
   }
 ];
 
-const comparisonPoints = [
-  {
-    feature: "Upfront Costs",
-    traditional: "£3000+",
-    yours: "£0"
-  },
-  {
-    feature: "Delivery Time",
-    traditional: "4-8 weeks",
-    yours: "7 days"
-  },
-  {
-    feature: "Content Writing",
-    traditional: "Extra Cost",
-    yours: "Included"
-  }
-]
-
-// Add this constant with your other constants
 const technologies: Technology[] = [
   { 
     name: "Next.js", 
@@ -1117,7 +1117,6 @@ const technologies: Technology[] = [
   }
 ];
 
-// Add these constants
 const localBusinesses: LocalBusiness[] = [
   {
     name: "Natalie Mae Hair Extensions",

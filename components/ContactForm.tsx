@@ -34,27 +34,27 @@ export default function ContactForm() {
 
   const steps: FormStep[] = [
     {
-      question: "First things first, what's your name?",
+      question: "First things first, what&apos;s your name?",
       type: 'text',
       placeholder: 'Type your name here...'
     },
     {
       question: `Lovely to meet you, ${formData.name}! Tell us your business name...`,
       type: 'text',
-      placeholder: "What's your business called?"
+      placeholder: "What&apos;s your business called?"
     },
     {
       question: "Brilliant! And what does your business do?",
       type: 'textarea',
-      placeholder: "Don't hold back - we love hearing about passionate business owners!"
+      placeholder: "Don&apos;t hold back - we love hearing about passionate business owners!"
     },
     {
-      question: `${formData.businessName} sounds fantastic! What's the best email to reach you on?`,
+      question: `${formData.businessName} sounds fantastic! What&apos;s the best email to reach you on?`,
       type: 'email',
       placeholder: 'your@email.com'
     },
     {
-      question: "Last but not least, what's your phone number?",
+      question: "Last but not least, what&apos;s your phone number?",
       type: 'tel',
       placeholder: 'Your best contact number'
     }
@@ -154,7 +154,7 @@ export default function ContactForm() {
               Let's Create Something Amazing
             </h2>
             <p className="text-xl text-gray-400 text-center mb-12">
-              Ready for a website that's as unique as your business? Let's have a chat!
+              Ready for a website that&apos;s as unique as your business? Let&apos;s have a chat!
             </p>
             
             <div className="flex justify-center gap-4 mb-12">
@@ -218,8 +218,8 @@ export default function ContactForm() {
             </div>
             <h3 className="text-3xl font-bold mb-4 text-center">Thanks {formData.name}!</h3>
             <p className="text-gray-400 text-center text-lg leading-relaxed">
-              We're really excited to learn more about {formData.businessName}. 
-              We'll be in touch within 24 hours to chat about your amazing business 
+              We&apos;re really excited to learn more about {formData.businessName}. 
+              We&apos;ll be in touch within 24 hours to chat about your amazing business 
               and how we can help it grow online.
             </p>
           </motion.div>
