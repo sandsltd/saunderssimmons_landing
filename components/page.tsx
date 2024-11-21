@@ -21,7 +21,7 @@ const FloatingCTA = () => (
       Get Started Free
     </motion.button>
   </div>
-)
+) 
 
 // Add this interface with your other types
 interface Technology {
