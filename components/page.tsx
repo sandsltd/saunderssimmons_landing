@@ -307,7 +307,6 @@ const Footer = () => (
 export default function BlockPage() {
   const [isPlaying, setIsPlaying] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
-  const [selectedBadge, setSelectedBadge] = useState<number | null>(null);
   const [activeBadge, setActiveBadge] = useState<number | null>(null);
   const [activeTech, setActiveTech] = useState<number | null>(null);
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
@@ -1275,21 +1274,6 @@ export default function BlockPage() {
   )
 }
 
-// Helper function to get feature icons
-function getFeatureIcon(title: string) {
-  switch (title) {
-    case "Beautiful Design":
-      return <FaPalette className="w-6 h-6 text-white" />
-    case "Free Website":
-      return <FaRocket className="w-6 h-6 text-white" />
-    case "Lightning Fast":
-      return <FaBolt className="w-6 h-6 text-white" />
-    case "Mobile Magic":
-      return <FaMobile className="w-6 h-6 text-white" />
-    default:
-      return null
-  }
-}
 
 interface TrustBadge {
   text: string;
