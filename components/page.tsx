@@ -2,26 +2,13 @@
 
 import AnimatedHero from './AnimatedHero'
 import { motion } from 'framer-motion'
-import { FaRocket, FaPalette, FaBolt, FaMobile, FaCheck, FaGoogle, FaShieldAlt, FaLock, FaMapMarkerAlt, FaHandshake, FaUmbrella, FaStore, FaHardHat, FaUtensils, FaBriefcase, FaCut, FaShoppingBag, FaWhatsapp, FaChevronDown, FaPhone, FaExternalLinkAlt, FaSearch } from 'react-icons/fa'
+import { FaRocket, FaPalette, FaBolt, FaMobile, FaCheck, FaGoogle, FaShieldAlt, FaLock, FaMapMarkerAlt, FaHandshake, FaUmbrella, FaStore, FaHardHat, FaUtensils, FaBriefcase, FaCut, FaShoppingBag, FaWhatsapp, FaChevronDown, FaPhone, FaExternalLinkAlt, FaSearch, FaPause, FaPlay } from 'react-icons/fa'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import ContactForm from './ContactForm'
 
 
-// Add this component near the top of the file
-// const FloatingCTA = () => (
-//   <div className="fixed bottom-8 right-8 z-50 md:hidden">
-//     <motion.button
-//       whileHover={{ scale: 1.05 }}
-//       whileTap={{ scale: 0.95 }}
-//       className="bg-blue-500 text-white px-6 py-3 rounded-full font-semibold shadow-lg flex items-center gap-2"
-//     >
-//       <FaRocket className="w-4 h-4" />
-//       Get Started Free
-//     </motion.button>
-//   </div>
-// )
 
 // Add this interface with your other types
 interface Technology {
@@ -310,8 +297,53 @@ export default function BlockPage() {
   const [activeTech, setActiveTech] = useState<number | null>(null);
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
 
+  // Add useEffect to preload video
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.src = "https://saunders-simmons.co.uk/wp-content/uploads/2024/09/jj_mob_testimonial.mov";
+      videoRef.current.load();
+    }
+  }, []);
+
+  // Update handlePlayPause to remove the source setting
+  const handlePlayPause = () => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (isPlaying) {
+      video.pause();
+      setIsPlaying(false);
+    } else {
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            setIsPlaying(true);
+            console.log('Video playing successfully');
+          })
+          .catch(error => {
+            console.error('Error attempting to play video:', error);
+            // Try playing muted first (browsers often require this)
+            video.muted = true;
+            return video.play();
+          })
+          .then(() => {
+            // If muted play works, unmute and try again
+            video.muted = false;
+            setIsPlaying(true);
+          })
+          .catch(error => {
+            console.error('Final error playing video:', error);
+            setIsPlaying(false);
+          });
+      }
+    }
+  };
+
   return (
     <>
+      {/* Remove this line */}
+      {/* <FloatingCTA /> */}
       <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-white">
         <AnimatedHero />
         
@@ -355,6 +387,121 @@ export default function BlockPage() {
                 </motion.div>
               ))}
             </motion.div>
+          </div>
+        </AnimatedSection>
+
+        {/* Success Story Section */}
+        <AnimatedSection className="py-20 px-4">
+          <div className="max-w-6xl mx-auto">
+            <h2 className="text-4xl font-bold text-center mb-16">
+              Recent Success Story
+            </h2>
+            
+            <div className="grid md:grid-cols-2 gap-8 items-center">
+              {/* Text Column */}
+              <div>
+                <h3 className="text-3xl md:text-4xl font-bold mb-6">
+                  JJ Mobile Valeting
+                </h3>
+                <p className="text-gray-400 text-lg mb-8">
+                  A complete digital transformation for a local business, resulting in:
+                </p>
+                <div className="space-y-4">
+                  {[
+                    "300% increase in online bookings",
+                    "First page Google ranking",
+                    "Mobile-first design",
+                    "Integrated booking system"
+                  ].map((feature, index) => (
+                    <div key={index} className="flex items-start gap-3">
+                      <div className="w-5 h-5 rounded-full bg-green-500/10 flex items-center justify-center mt-1 shrink-0">
+                        <FaCheck className="w-3 h-3 text-green-400" />
+                      </div>
+                      <p className="text-gray-300 text-lg">{feature}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <Link 
+                  href="#contact"
+                  className="inline-flex items-center gap-2 bg-blue-500 hover:bg-blue-600 
+                    px-6 py-3 rounded-lg text-white font-semibold mt-8
+                    transition-all duration-300"
+                >
+                  Get Similar Results
+                  <span className="text-xl">→</span>
+                </Link>
+              </div>
+
+              {/* Video Column */}
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5 }}
+                viewport={{ once: true }}
+                className="relative aspect-video bg-gray-900 rounded-xl overflow-hidden border border-gray-800 shadow-2xl"
+              >
+                {/* Thumbnail with Logo */}
+                <Image
+                  src="/case_study_jj_logo_1.png"
+                  alt="JJ Mobile Valeting Logo"
+                  fill
+                  className={`object-contain p-8 transition-opacity duration-300 ${isPlaying ? 'opacity-0' : 'opacity-100'}`}
+                  priority
+                />
+                
+                {/* Video */}
+                <video
+                  ref={videoRef}
+                  className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${isPlaying ? 'opacity-100' : 'opacity-0'}`}
+                  playsInline
+                  controls={false}
+                  preload="auto"
+                  onEnded={() => setIsPlaying(false)}
+                />
+
+                {/* Play/Pause Button */}
+                <button
+                  onClick={handlePlayPause}
+                  className={`absolute inset-0 flex items-center justify-center ${isPlaying ? 'opacity-0 hover:opacity-100' : 'opacity-100'} transition-opacity duration-300`}
+                >
+                  <div className="bg-blue-500 p-4 rounded-full transform transition-transform duration-300 hover:scale-110 hover:bg-blue-600">
+                    {isPlaying ? (
+                      <FaPause className="w-8 h-8 text-white" />
+                    ) : (
+                      <FaPlay className="w-8 h-8 text-white ml-1" />
+                    )}
+                  </div>
+                </button>
+
+                {/* Video Description Overlay */}
+                {!isPlaying && (
+                  <div className="absolute inset-x-0 bottom-0 p-6 text-center">
+                    <p className="text-white text-xl font-semibold">
+                      Hear from James about his experience
+                    </p>
+                    <p className="text-gray-300 text-sm">
+                      Click to watch the full testimonial
+                    </p>
+                  </div>
+                )}
+
+                {/* Progress Bar */}
+                {isPlaying && (
+                  <div className="absolute bottom-0 left-0 right-0 h-1 bg-gray-800">
+                    <motion.div
+                      className="h-full bg-blue-500"
+                      initial={{ width: "0%" }}
+                      animate={{ width: "100%" }}
+                      transition={{
+                        duration: 60,
+                        ease: "linear"
+                      }}
+                    />
+                  </div>
+                )}
+              </motion.div>
+            </div>
           </div>
         </AnimatedSection>
 
