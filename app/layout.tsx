@@ -40,9 +40,18 @@ export const metadata: Metadata = {
     images: ['/sands_logo.png'],
   },
   icons: {
-    icon: '/sands_logo.png',
-    shortcut: '/sands_logo.png',
-    apple: '/sands_logo.png',
+    icon: [
+      { url: '/favicon.ico', sizes: '32x32' },
+      { url: '/icon.png', sizes: '180x180' }
+    ],
+    shortcut: '/favicon.ico',
+    apple: '/apple-icon.png',
+    other: [
+      {
+        rel: 'apple-touch-icon',
+        url: '/apple-icon.png',
+      }
+    ],
   }
 };
 
