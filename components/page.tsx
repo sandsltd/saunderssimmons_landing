@@ -95,10 +95,7 @@ const ScrollIndicator = ({ text }: { text: string }) => (
     transition={{ delay: 0.5 }}
     className="text-blue-400 hover:text-blue-300 transition-colors text-center mt-12 mb-4"
   >
-    <Link 
-      href="#features"
-      className="flex flex-col items-center group"
-    >
+    <div className="flex flex-col items-center group">
       <span className="text-sm font-medium mb-1 
         group-hover:text-blue-300 transition-colors">
         {text}
@@ -126,7 +123,7 @@ const ScrollIndicator = ({ text }: { text: string }) => (
           />
         </svg>
       </motion.div>
-    </Link>
+    </div>
   </motion.div>
 );
 
@@ -250,7 +247,7 @@ const Footer = () => (
           alt="Saunders Simmons Ltd"
           width={180}
           height={40}
-          className="h-8 w-auto"
+          className="h-20 w-auto"
         />
       </div>
 
@@ -1008,11 +1005,13 @@ export default function BlockPage() {
             </div>
 
             <div className="bg-white/5 backdrop-blur-lg rounded-2xl border border-blue-500/20 overflow-hidden shadow-xl">
-              {/* Mobile Headers */}
-              <div className="md:hidden grid grid-cols-3 p-4 border-b border-blue-500/20">
-                <div className="text-gray-300 text-base">Feature</div>
-                <div className="text-gray-300 text-base text-center">Traditional<br/>Agency</div>
-                <div className="text-gray-300 text-base text-right">Saunders &<br/>Simmons</div>
+              {/* Column Headers */}
+              <div className="grid grid-cols-3 p-4 border-b border-blue-500/20 bg-slate-800/50">
+                <div className="text-gray-300 font-medium">Feature</div>
+                <div className="text-gray-300 font-medium text-center">Traditional Agency</div>
+                <div className="text-gray-300 font-medium text-right">
+                  <span className="text-blue-400">Saunders & Simmons</span>
+                </div>
               </div>
 
               {/* Comparison Items */}
@@ -1043,51 +1042,21 @@ export default function BlockPage() {
                   key={index}
                   className={`p-6 ${index !== 2 ? 'border-b border-blue-500/20' : ''}`}
                 >
-                  {/* Mobile Layout */}
-                  <div className="md:hidden grid grid-cols-3 items-start">
-                    {/* Feature Column */}
-                    <div className="col-span-3 mb-2">
-                      <div className="flex items-center gap-2">
-                        <span className="text-xl">{point.icon}</span>
-                        <h3 className="text-xl font-semibold text-white">{point.feature}</h3>
-                      </div>
-                      <p className="text-gray-400 text-sm mt-1">{point.description}</p>
-                    </div>
-                    
-                    {/* Comparison Values */}
-                    <div className="col-span-3 grid grid-cols-3 mt-4">
-                      <div className="col-span-1">
-                        {/* Empty space for alignment */}
-                      </div>
-                      <div className="col-span-1 flex justify-center">
-                        <div className="inline-flex items-center px-4 py-2 rounded-full bg-red-500/10 text-red-400 border border-red-500/20">
-                          {point.traditional}
-                        </div>
-                      </div>
-                      <div className="col-span-1 flex justify-end">
-                        <div className="inline-flex items-center px-4 py-2 rounded-full bg-green-500/10 text-green-400 border border-green-500/20">
-                          {point.yours}
-                        </div>
+                  <div className="grid grid-cols-3 items-center">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xl">{point.icon}</span>
+                      <div>
+                        <h3 className="text-lg font-semibold text-white">{point.feature}</h3>
+                        <p className="text-sm text-gray-400">{point.description}</p>
                       </div>
                     </div>
-                  </div>
-
-                  {/* Desktop Layout */}
-                  <div className="hidden md:grid md:grid-cols-4 md:items-center">
-                    <div className="space-y-2">
-                      <div className="flex items-center gap-3">
-                        <span className="text-2xl group-hover:scale-110 transition-transform duration-300">{point.icon}</span>
-                        <span className="font-semibold text-white">{point.feature}</span>
-                      </div>
-                      <p className="text-sm text-gray-400">{point.description}</p>
-                    </div>
-                    <div className="col-span-2 text-center">
+                    <div className="text-center">
                       <div className="inline-flex items-center px-4 py-2 rounded-full bg-red-500/10 text-red-400 border border-red-500/20">
                         {point.traditional}
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className="inline-flex items-center px-4 py-2 rounded-full bg-green-500/10 text-green-400 font-semibold border border-green-500/20">
+                      <div className="inline-flex items-center px-4 py-2 rounded-full bg-green-500/10 text-green-400 border border-green-500/20 font-medium">
                         {point.yours}
                       </div>
                     </div>
@@ -1102,24 +1071,6 @@ export default function BlockPage() {
                 *Figures based on average UK web agency costs reported by Approved Index, 
                 ranging from £2,500 to £6,000 for a basic business website
               </p>
-            </div>
-
-            {/* CTA button */}
-            <div className="mt-8 text-center">
-              <Link 
-                href="#contact"
-                className="inline-flex items-center gap-2 bg-blue-500 hover:bg-blue-600 
-                  px-6 py-3 rounded-lg text-white text-sm md:text-base font-semibold 
-                  transition-all duration-300 active:scale-95 md:hover:scale-105"
-              >
-                Get Started Today
-                <motion.span 
-                  animate={{ x: [0, 3, 0] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                >
-                  →
-                </motion.span>
-              </Link>
             </div>
           </div>
         </AnimatedSection>
