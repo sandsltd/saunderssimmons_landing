@@ -2,7 +2,7 @@
 
 import AnimatedHero from './AnimatedHero'
 import { motion } from 'framer-motion'
-import { FaRocket, FaPalette, FaBolt, FaMobile, FaCheck, FaGoogle, FaShieldAlt, FaLock, FaMapMarkerAlt, FaHandshake, FaUmbrella, FaStore, FaHardHat, FaUtensils, FaBriefcase, FaCut, FaShoppingBag, FaPlay, FaPause, FaWhatsapp, FaChevronDown, FaPhone, FaExternalLinkAlt, FaSearch } from 'react-icons/fa'
+import { FaRocket, FaPalette, FaBolt, FaMobile, FaCheck, FaGoogle, FaShieldAlt, FaLock, FaMapMarkerAlt, FaHandshake, FaUmbrella, FaStore, FaHardHat, FaUtensils, FaBriefcase, FaCut, FaShoppingBag, FaWhatsapp, FaChevronDown, FaPhone, FaExternalLinkAlt, FaSearch } from 'react-icons/fa'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState, useRef } from 'react'
@@ -301,20 +301,7 @@ const Footer = () => (
   </footer>
 );
 
-// Add these interfaces near your other interfaces
-interface ShowcaseProject {
-  title: string;
-  description: string;
-  imageUrl: string;
-  stats: {
-    icon: React.ReactNode;
-    label: string;
-    value: string;
-  }[];
-  features: string[];
-  technologies: string[];
-  liveUrl: string;
-}
+
 
 export default function BlockPage() {
   const [isPlaying, setIsPlaying] = useState(false)
@@ -323,50 +310,8 @@ export default function BlockPage() {
   const [activeTech, setActiveTech] = useState<number | null>(null);
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
 
-  // Handle play/pause with proper error handling
-  const handlePlayPause = () => {
-    const video = videoRef.current;
-    if (!video) return;
-
-    if (isPlaying) {
-      video.pause();
-      setIsPlaying(false);
-    } else {
-      // Create a new video element and load the source
-      video.src = "https://saunders-simmons.co.uk/wp-content/uploads/2024/09/jj_mob_testimonial.mov";
-      video.load();
-      
-      // Play the video after loading
-      const playPromise = video.play();
-      if (playPromise !== undefined) {
-        playPromise
-          .then(() => {
-            setIsPlaying(true);
-            console.log('Video playing successfully');
-          })
-          .catch(error => {
-            console.error('Error attempting to play video:', error);
-            // Try playing muted first (browsers often require this)
-            video.muted = true;
-            return video.play();
-          })
-          .then(() => {
-            // If muted play works, unmute and try again
-            video.muted = false;
-            setIsPlaying(true);
-          })
-          .catch(error => {
-            console.error('Final error playing video:', error);
-            setIsPlaying(false);
-          });
-      }
-    }
-  };
-
   return (
     <>
-      {/* Remove this line */}
-      {/* <FloatingCTA /> */}
       <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-white">
         <AnimatedHero />
         
