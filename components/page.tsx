@@ -2,7 +2,7 @@
 
 import AnimatedHero from './AnimatedHero'
 import { motion } from 'framer-motion'
-import { FaRocket, FaPalette, FaBolt, FaMobile, FaCheck, FaGoogle, FaShieldAlt, FaLock, FaMapMarkerAlt, FaHandshake, FaUmbrella, FaStore, FaHardHat, FaUtensils, FaBriefcase, FaCut, FaShoppingBag, FaPlay, FaPause, FaWhatsapp, FaChevronDown, FaPhone } from 'react-icons/fa'
+import { FaRocket, FaPalette, FaBolt, FaMobile, FaCheck, FaGoogle, FaShieldAlt, FaLock, FaMapMarkerAlt, FaHandshake, FaUmbrella, FaStore, FaHardHat, FaUtensils, FaBriefcase, FaCut, FaShoppingBag, FaPlay, FaPause, FaWhatsapp, FaChevronDown, FaPhone, FaExternalLinkAlt, FaSearch } from 'react-icons/fa'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState, useRef } from 'react'
@@ -300,6 +300,21 @@ const Footer = () => (
     </div>
   </footer>
 );
+
+// Add these interfaces near your other interfaces
+interface ShowcaseProject {
+  title: string;
+  description: string;
+  imageUrl: string;
+  stats: {
+    icon: React.ReactNode;
+    label: string;
+    value: string;
+  }[];
+  features: string[];
+  technologies: string[];
+  liveUrl: string;
+}
 
 export default function BlockPage() {
   const [isPlaying, setIsPlaying] = useState(false)
@@ -605,9 +620,9 @@ export default function BlockPage() {
                       setActiveTech(activeTech === index ? null : index);
                     }
                   }}
-                  className="relative"
+                  className="relative group"
                 >
-                  <div className="flex flex-col items-center group cursor-pointer">
+                  <div className="flex flex-col items-center">
                     <div className={`w-20 h-20 md:w-24 md:h-24 rounded-2xl bg-gradient-to-br ${tech.color} p-4 md:p-5 
                       flex items-center justify-center mb-3 md:mb-4 border ${tech.border} shadow-lg 
                       transition-all duration-300 ${activeTech === index ? 'scale-95' : ''}`}
@@ -634,24 +649,23 @@ export default function BlockPage() {
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
-                      className="absolute z-50 left-0 right-0 mt-2 bg-slate-800/95 backdrop-blur-sm 
-                        rounded-xl p-4 shadow-xl border border-gray-700 mx-2 md:mx-0"
+                      className="md:hidden absolute z-50 left-0 right-0 mt-2 bg-slate-800/95 backdrop-blur-sm 
+                        rounded-xl p-4 shadow-xl border border-gray-700 mx-2"
                     >
                       <div className="text-white text-sm leading-relaxed">
                         <p>{tech.description}</p>
                       </div>
-                      {/* Arrow pointing up */}
                       <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 rotate-45 
                         bg-slate-800/95 border-l border-t border-gray-700">
                       </div>
                     </motion.div>
                   )}
 
-                  {/* Desktop Hover Card - Hidden on Mobile */}
-                  <div className="hidden md:block absolute opacity-0 invisible group-hover:opacity-100 
-                    group-hover:visible transition-all duration-300 pointer-events-none
-                    bottom-[120%] left-1/2 -translate-x-1/2 w-72 bg-slate-800/95 backdrop-blur-sm 
-                    rounded-xl p-4 shadow-xl border border-gray-700 z-[60]"
+                  {/* Desktop Hover Card */}
+                  <div className="hidden md:block opacity-0 invisible group-hover:opacity-100 
+                    group-hover:visible transition-all duration-300
+                    absolute bottom-full left-1/2 -translate-x-1/2 w-72 bg-slate-800/95 backdrop-blur-sm 
+                    rounded-xl p-4 shadow-xl border border-gray-700 z-50 mb-4 pointer-events-none"
                   >
                     <div className="text-white text-sm leading-relaxed">
                       <h3 className="font-bold text-lg mb-2">{tech.name}</h3>
@@ -836,124 +850,6 @@ export default function BlockPage() {
         {/* After Templates */}
         <ScrollIndicator text="Meet some happy local businesses" />
 
-        {/* Case Study Section */}
-        <AnimatedSection className="py-20 px-4">
-          <div className="max-w-6xl mx-auto">
-            <h2 className="text-4xl md:text-4xl text-center mb-8 md:mb-16 text-white font-bold">
-              Recent Success Story
-            </h2>
-
-            {/* Changed to flex-col for mobile, grid for larger screens */}
-            <div className="flex flex-col md:grid md:grid-cols-2 gap-6 md:gap-12 items-center">
-              {/* Video Column - Moved to top on mobile */}
-              <div className="w-full order-1 md:order-2 relative aspect-video bg-white/5 rounded-xl overflow-hidden border border-gray-700 group">
-                {/* Thumbnail with Logo */}
-                <Image
-                  src="/case_study_jj_logo_1.png"
-                  alt="JJ Mobile Valeting Logo"
-                  fill
-                  className={`object-contain p-6 md:p-8 transition-opacity duration-300 ${isPlaying ? 'opacity-0' : 'opacity-100'}`}
-                  priority
-                />
-                
-                {/* Video */}
-                <video
-                  ref={videoRef}
-                  className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${isPlaying ? 'opacity-100' : 'opacity-0'}`}
-                  playsInline
-                  controls={false}
-                  preload="auto"
-                  onEnded={() => setIsPlaying(false)}
-                />
-
-                {/* Play/Pause Button - Increased tap target size */}
-                <button
-                  onClick={handlePlayPause}
-                  className={`absolute inset-0 flex items-center justify-center ${isPlaying ? 'opacity-0 active:opacity-100' : 'opacity-100'} transition-opacity duration-300`}
-                >
-                  <div className="bg-blue-500/90 p-4 md:p-4 rounded-full transform transition-transform duration-300 active:scale-95 md:hover:scale-110 hover:bg-blue-600/90">
-                    {isPlaying ? (
-                      <FaPause className="w-6 h-6 md:w-8 md:h-8 text-white" />
-                    ) : (
-                      <FaPlay className="w-6 h-6 md:w-8 md:h-8 text-white ml-1" />
-                    )}
-                  </div>
-                </button>
-
-                {/* Video Description Overlay - Adjusted padding and text size */}
-                {!isPlaying && (
-                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-4 md:p-6">
-                    <p className="text-white text-base md:text-lg font-semibold">
-                      Hear from James about his experience
-                    </p>
-                    <p className="text-gray-200 text-xs md:text-sm">
-                      Click to watch the full testimonial
-                    </p>
-                  </div>
-                )}
-
-                {/* Progress Bar */}
-                {isPlaying && (
-                  <div className="absolute bottom-0 left-0 right-0 h-1 bg-gray-800">
-                    <motion.div
-                      className="h-full bg-blue-500"
-                      initial={{ width: "0%" }}
-                      animate={{ width: "100%" }}
-                      transition={{
-                        duration: 60,
-                        ease: "linear"
-                      }}
-                    />
-                  </div>
-                )}
-              </div>
-
-              {/* Content Column - Moved to bottom on mobile */}
-              <div className="order-2 md:order-1 w-full">
-                <h3 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6">JJ Mobile Valeting</h3>
-                <p className="text-gray-300 mb-6 md:mb-8 text-base md:text-lg">
-                  A complete digital transformation for a local business, resulting in:
-                </p>
-                <ul className="space-y-3 md:space-y-4">
-                  {[
-                    "300% increase in online bookings",
-                    "First page Google ranking",
-                    "Mobile-first design",
-                    "Integrated booking system"
-                  ].map((item, index) => (
-                    <li
-                      key={index}
-                      className="flex items-center gap-2 md:gap-3"
-                    >
-                      <FaCheck className="w-4 h-4 md:w-5 md:h-5 text-green-400 shrink-0" />
-                      <span className="text-gray-300 text-sm md:text-base">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="mt-6 md:mt-8">
-                  <Link 
-                    href="#contact"
-                    className="inline-flex items-center gap-2 bg-blue-500 hover:bg-blue-600 
-                      px-4 md:px-6 py-2.5 md:py-3 rounded-lg text-white text-sm md:text-base font-semibold 
-                      transition-all duration-300 active:scale-95 md:hover:scale-100"
-                  >
-                    Get Similar Results
-                    <motion.span 
-                      animate={{ x: [0, 3, 0] }}
-                      transition={{ duration: 1.5, repeat: Infinity }}
-                    >
-                      →
-                    </motion.span>
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        </AnimatedSection>
-
-        <ScrollIndicator text="And there's more..." />
-
         {/* Who We've Worked With Section */}
         <AnimatedSection className="py-20 px-4">
           <div className="max-w-6xl mx-auto">
@@ -985,6 +881,139 @@ export default function BlockPage() {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+        </AnimatedSection>
+
+        <ScrollIndicator text="Check out our latest project! ✨" />
+
+        {/* Showcase Project Section - Moved here */}
+        <AnimatedSection className="py-20 px-4 relative">
+          <div className="absolute inset-0 bg-gradient-to-b from-blue-500/5 to-transparent"></div>
+          <div className="max-w-6xl mx-auto">
+            <h2 className="text-4xl font-bold text-center mb-6 text-white">
+              Featured Project
+            </h2>
+            
+            <p className="text-center text-gray-400 mb-16">
+              Take a look at one of our recent projects
+            </p>
+
+            <div className="grid md:grid-cols-2 gap-8 items-center">
+              {/* Preview Section */}
+              <div className="relative group">
+                <div className="relative aspect-[16/9] rounded-xl overflow-hidden border border-gray-700">
+                  <Image
+                    src="/website_example.png"
+                    alt="Diamond Vision Website Preview"
+                    fill
+                    className="object-cover"
+                  />
+                  {/* Hover Overlay - Updated z-index and pointer-events */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent 
+                    opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+                    <div className="absolute bottom-0 left-0 right-0 p-6">
+                      <a 
+                        href="https://www.diamondvisioncleaning.co.uk"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 text-white font-medium relative z-20"
+                      >
+                        Visit Website <FaExternalLinkAlt className="w-4 h-4" />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Stats Cards */}
+                <div className="grid grid-cols-3 gap-4 mt-4">
+                  {[
+                    { icon: <FaBolt />, label: "Performance", value: "98%" },
+                    { icon: <FaMobile />, label: "Mobile Score", value: "100%" },
+                    { icon: <FaSearch />, label: "SEO Score", value: "100%" },
+                  ].map((stat, index) => (
+                    <div 
+                      key={index}
+                      className="bg-white/5 backdrop-blur-sm rounded-lg p-3 border border-gray-700
+                        hover:border-blue-500/40 transition-colors duration-300"
+                    >
+                      <div className="text-2xl mb-2 text-blue-400">{stat.icon}</div>
+                      <div className="text-sm text-gray-400">{stat.label}</div>
+                      <div className="text-lg font-semibold text-white">{stat.value}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Details Section */}
+              <div className="space-y-6">
+                <div>
+                  <h3 className="text-2xl font-bold text-white mb-3">Diamond Vision Cleaning</h3>
+                  <p className="text-gray-400">
+                    A modern, high-performance website for a professional exterior cleaning service. 
+                    This project showcases interactive elements, smooth animations, and a user-friendly 
+                    interface that effectively converts visitors into customers.
+                  </p>
+                </div>
+
+                {/* Features */}
+                <div>
+                  <h4 className="text-lg font-semibold text-white mb-3">Key Features</h4>
+                  <ul className="grid grid-cols-2 gap-2">
+                    {[
+                      "Interactive Map Integration",
+                      "Service Area Visualisation",
+                      "Before/After Gallery",
+                      "Animated Sections",
+                      "Mobile-First Design",
+                      "Contact Form Integration"
+                    ].map((feature, index) => (
+                      <li key={index} className="flex items-center gap-2 text-gray-300">
+                        <FaCheck className="w-4 h-4 text-green-400" />
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Tech Stack */}
+                <div>
+                  <h4 className="text-lg font-semibold text-white mb-3">Built With</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {[
+                      "Next.js",
+                      "React",
+                      "Tailwind CSS",
+                      "TypeScript",
+                      "Mapbox",
+                      "Particles.js"
+                    ].map((tech, index) => (
+                      <span 
+                        key={index}
+                        className="px-3 py-1 rounded-full text-sm bg-blue-500/10 text-blue-400 
+                          border border-blue-500/20"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* CTA Button - Updated with better positioning and z-index */}
+                <div className="pt-4 relative z-20">
+                  <a 
+                    href="https://www.diamondvisioncleaning.co.uk"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 bg-blue-500 hover:bg-blue-600 
+                      px-6 py-3 rounded-lg text-white font-semibold transition-colors duration-300
+                      relative z-20 cursor-pointer"
+                  >
+                    View Live Site
+                    <FaExternalLinkAlt className="w-4 h-4" />
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         </AnimatedSection>
@@ -1132,7 +1161,7 @@ export default function BlockPage() {
                 },
                 {
                   question: "Do you offer SEO services?",
-                  answer: "Yes! While our free website package includes basic SEO setup, we offer comprehensive SEO services to help boost your online visibility. This includes keyword research, content optimization, local SEO, and regular performance reporting. Get in touch to learn more about our SEO packages."
+                  answer: "Yes! While our free website package includes basic SEO setup, we offer comprehensive SEO services to help boost your online visibility. This includes keyword research, content optimisation, local SEO, and regular performance reporting. Get in touch to learn more about our SEO packages."
                 },
                 {
                   question: "What if I already have a website?",
@@ -1431,7 +1460,7 @@ const websiteFeatures = [
       "Regular Backups",
       "99.9% Uptime",
       "CDN Delivery",
-      "Image Optimization",
+      "Image Optimisation",
       "Responsive Design"
     ]
   }

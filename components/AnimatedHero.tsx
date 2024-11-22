@@ -7,7 +7,7 @@ import { TypeAnimation } from 'react-type-animation'
 
 export default function AnimatedHero() {
   return (
-    <section className="relative min-h-[100svh] flex flex-col justify-between overflow-hidden">
+    <section className="relative min-h-[100svh] flex flex-col justify-center overflow-hidden">
       {/* Enhanced background with particles, gradients and glow effects */}
       <div className="absolute w-full h-full">
         {/* Base dark background */}
@@ -39,12 +39,12 @@ export default function AnimatedHero() {
         <div className="absolute inset-0 bg-gradient-radial from-blue-500/5 via-transparent to-transparent" />
       </div>
 
-      {/* Main content */}
+      {/* Main content - Updated spacing and layout */}
       <motion.div 
         className="max-w-6xl mx-auto text-center px-4 sm:px-6 z-10 flex flex-col min-h-[100svh]"
       >
-        {/* Fixed position logo */}
-        <div className="absolute top-8 sm:top-12 md:top-16 left-4 sm:left-6">
+        {/* Logo - Adjusted position */}
+        <div className="absolute top-6 sm:top-8 left-4 sm:left-6">
           <Image
             src="/sands_logo.png"
             alt="Saunders Simmons"
@@ -55,10 +55,10 @@ export default function AnimatedHero() {
           />
         </div>
 
-        {/* Main content with adjusted spacing */}
-        <div className="flex-1 flex flex-col">
-          {/* Top section with headings */}
-          <div className="pt-32 sm:pt-36 md:pt-40 space-y-3 sm:space-y-4">
+        {/* Main content container - Centered vertically */}
+        <div className="flex-1 flex flex-col justify-center">
+          {/* Headings section - Reduced spacing */}
+          <div className="space-y-2 sm:space-y-3">
             <motion.h1 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -68,12 +68,12 @@ export default function AnimatedHero() {
               Give Your Business
             </motion.h1>
             
-            {/* Animated text */}
+            {/* Animated text - Reduced height */}
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="relative flex justify-center items-center min-h-[80px] sm:min-h-[100px] md:min-h-[120px] lg:min-h-[140px] 
-                overflow-visible my-4 sm:my-6"
+              className="relative flex justify-center items-center min-h-[60px] sm:min-h-[80px] md:min-h-[100px] lg:min-h-[120px] 
+                overflow-visible my-2 sm:my-4"
             >
               <TypeAnimation
                 sequence={[
@@ -125,19 +125,19 @@ export default function AnimatedHero() {
                   display: 'inline-block',
                   textShadow: '0 0 40px rgba(59, 130, 246, 0.5)',
                   lineHeight: '1.2',
-                  fontSize: 'clamp(1.75rem, 6vw, 5rem)',
+                  fontSize: 'clamp(1.5rem, 5vw, 4.5rem)',
                   fontWeight: '800',
                   color: '#93C5FD',
                   letterSpacing: '-0.02em',
-                  maxWidth: '90%',
+                  maxWidth: '95%',
                   margin: '0 auto'
                 }}
               />
             </motion.div>
           </div>
 
-          {/* Description text moved lower */}
-          <div className="flex-1 flex flex-col justify-center -mt-20 sm:-mt-24 md:-mt-28">
+          {/* Description text - Moved closer to heading */}
+          <div className="mt-4 sm:mt-6 mb-8 sm:mb-10">
             <div className="text-base sm:text-lg md:text-xl text-gray-300 leading-relaxed max-w-3xl mx-auto space-y-1">
               <p>Get a beautiful website that brings you more customers.</p>
               <p className="text-blue-300 font-medium">While you focus on what you do best.</p>
@@ -148,8 +148,8 @@ export default function AnimatedHero() {
             </div>
           </div>
 
-          {/* Bottom section with CTA and scroll indicator */}
-          <div className="space-y-8 pb-4 sm:pb-6">
+          {/* CTA and scroll indicator - Closer to content */}
+          <div className="space-y-6">
             {/* CTA Button */}
             <div className="relative w-full max-w-md mx-auto">
               <motion.div
@@ -161,8 +161,8 @@ export default function AnimatedHero() {
                   href="#contact" 
                   className="flex items-center justify-center gap-3 
                     bg-gradient-to-r from-blue-500 to-blue-600 
-                    px-6 py-4 rounded-xl 
-                    text-lg font-semibold text-white
+                    px-6 py-3 sm:py-4 rounded-xl 
+                    text-base sm:text-lg font-semibold text-white
                     transition-all duration-300 
                     shadow-[0_0_25px_rgba(59,130,246,0.5)]
                     hover:shadow-[0_0_35px_rgba(59,130,246,0.6)]
@@ -170,16 +170,16 @@ export default function AnimatedHero() {
                     relative overflow-hidden group"
                 >
                   <span className="relative z-10">Get Your Free Website</span>
-                  <span className="px-3 py-1 bg-white/20 rounded-lg 
-                    text-sm font-bold relative z-10
+                  <span className="px-2 sm:px-3 py-1 bg-white/20 rounded-lg 
+                    text-xs sm:text-sm font-bold relative z-10
                     group-hover:bg-white/25 transition-colors">
                     Worth £3000
                   </span>
                   <motion.span 
-                    className="text-xl relative z-10"
+                    className="text-lg sm:text-xl relative z-10"
                     animate={{ 
-                      y: [-3, 3, -3],
-                      rotate: [-10, 10, -10]
+                      y: [-2, 2, -2],
+                      rotate: [-5, 5, -5]
                     }}
                     transition={{ 
                       y: { duration: 1.5, repeat: Infinity, ease: "easeInOut" },
@@ -194,7 +194,7 @@ export default function AnimatedHero() {
               </motion.div>
             </div>
 
-            {/* Scroll indicator */}
+            {/* Scroll indicator - Simplified */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -203,14 +203,14 @@ export default function AnimatedHero() {
             >
               <Link 
                 href="#features"
-                className="flex flex-col items-center group"
+                className="inline-flex flex-col items-center group"
               >
                 <span className="text-sm font-medium mb-1 
                   group-hover:text-blue-300 transition-colors">
                   Curious to learn more?
                 </span>
                 <motion.div
-                  animate={{ y: [0, 6, 0] }}
+                  animate={{ y: [0, 4, 0] }}
                   transition={{ 
                     duration: 1.5,
                     repeat: Infinity,
@@ -218,19 +218,7 @@ export default function AnimatedHero() {
                   }}
                   className="text-blue-400 group-hover:text-blue-300 transition-colors"
                 >
-                  <svg 
-                    className="w-5 h-5" 
-                    fill="none" 
-                    stroke="currentColor" 
-                    viewBox="0 0 24 24"
-                  >
-                    <path 
-                      strokeLinecap="round" 
-                      strokeLinejoin="round" 
-                      strokeWidth={2.5} 
-                      d="M19 14l-7 7m0 0l-7-7m7 7V3" 
-                    />
-                  </svg>
+                  ↓
                 </motion.div>
               </Link>
             </motion.div>
