@@ -7,7 +7,7 @@ import { TypeAnimation } from 'react-type-animation'
 
 export default function AnimatedHero() {
   return (
-    <section className="relative min-h-[100svh] flex flex-col justify-center overflow-hidden">
+    <section className="relative min-h-[100svh] flex flex-col justify-center overflow-hidden" aria-labelledby="hero-heading">
       {/* Enhanced background with particles, gradients and glow effects */}
       <div className="absolute w-full h-full">
         {/* Base dark background */}
@@ -52,6 +52,7 @@ export default function AnimatedHero() {
             height={45}
             priority
             className="w-[35px] sm:w-[45px] md:w-[55px] h-auto drop-shadow-xl"
+            aria-label="Saunders Simmons Logo"
           />
         </div>
 
@@ -60,6 +61,7 @@ export default function AnimatedHero() {
           {/* Headings section - Reduced spacing */}
           <div className="space-y-2 sm:space-y-3">
             <motion.h1 
+              id="hero-heading"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight 
@@ -74,6 +76,8 @@ export default function AnimatedHero() {
               animate={{ opacity: 1 }}
               className="relative flex justify-center items-center min-h-[60px] sm:min-h-[80px] md:min-h-[100px] lg:min-h-[120px] 
                 overflow-visible my-2 sm:my-4"
+              role="heading"
+              aria-level={2}
             >
               <TypeAnimation
                 sequence={[
@@ -132,20 +136,21 @@ export default function AnimatedHero() {
                   maxWidth: '95%',
                   margin: '0 auto'
                 }}
+                aria-live="polite"
               />
             </motion.div>
           </div>
 
           {/* Description text - Moved closer to heading */}
           <div className="mt-4 sm:mt-6 mb-8 sm:mb-10">
-            <div className="text-base sm:text-lg md:text-xl text-gray-300 leading-relaxed max-w-3xl mx-auto space-y-1">
-              <p>Get a beautiful website that brings you more customers.</p>
-              <p className="text-blue-300 font-medium">While you focus on what you do best.</p>
-              <p>
-                <span className="font-bold text-white">No upfront costs</span>
+            <h2 className="text-base sm:text-lg md:text-xl text-gray-300 leading-relaxed max-w-3xl mx-auto space-y-1">
+              Get a beautiful website that brings you more customers.
+              <span className="block text-blue-300 font-medium">While you focus on what you do best.</span>
+              <span className="block">
+                <strong className="text-white">No upfront costs</strong>
                 <span className="text-gray-300">. Just results.</span>
-              </p>
-            </div>
+              </span>
+            </h2>
           </div>
 
           {/* CTA and scroll indicator - Closer to content */}
@@ -168,6 +173,7 @@ export default function AnimatedHero() {
                     hover:shadow-[0_0_35px_rgba(59,130,246,0.6)]
                     hover:from-blue-600 hover:to-blue-700
                     relative overflow-hidden group"
+                  aria-label="Get Your Free Website - Worth £3000"
                 >
                   <span className="relative z-10">Get Your Free Website</span>
                   <span className="px-2 sm:px-3 py-1 bg-white/20 rounded-lg 
@@ -185,6 +191,8 @@ export default function AnimatedHero() {
                       y: { duration: 1.5, repeat: Infinity, ease: "easeInOut" },
                       rotate: { duration: 2, repeat: Infinity, ease: "easeInOut" }
                     }}
+                    role="img"
+                    aria-label="Rocket"
                   >
                     🚀
                   </motion.span>
@@ -204,6 +212,7 @@ export default function AnimatedHero() {
               <Link 
                 href="#features"
                 className="inline-flex flex-col items-center group"
+                aria-label="Scroll to features section"
               >
                 <span className="text-sm font-medium mb-1 
                   group-hover:text-blue-300 transition-colors">
@@ -217,6 +226,7 @@ export default function AnimatedHero() {
                     ease: "easeInOut"
                   }}
                   className="text-blue-400 group-hover:text-blue-300 transition-colors"
+                  aria-hidden="true"
                 >
                   ↓
                 </motion.div>

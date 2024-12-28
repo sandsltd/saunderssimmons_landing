@@ -186,9 +186,9 @@ export default function ContactForm() {
               <h2 className="text-4xl md:text-6xl font-bold text-center mb-4 md:mb-6 bg-gradient-to-r from-blue-400 via-purple-400 to-blue-400 text-transparent bg-clip-text">
                 Transform Your Online Presence
               </h2>
-              <p className="text-xl md:text-2xl text-gray-400 text-center mb-8">
+              <h2 className="text-xl md:text-2xl text-gray-400 text-center mb-8">
                 Ready to stand out in the digital world? Let's create something extraordinary together.
-              </p>
+              </h2>
             </motion.div>
 
             {!showEmailCapture ? (

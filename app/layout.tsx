@@ -6,11 +6,15 @@ const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
   weight: "100 900",
+  preload: true,
+  display: 'swap',
 });
 const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
   weight: "100 900",
+  preload: true,
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
@@ -52,23 +56,36 @@ export const metadata: Metadata = {
         url: '/apple-icon.png',
       }
     ],
-  }
+  },
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: {
+  children: React.ReactNode
+}) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <div className="fixed inset-0 w-full overflow-y-auto overflow-x-hidden">
-          {children}
-        </div>
+      <head>
+        <link
+          rel="preload"
+          href="/sands_logo.png"
+          as="image"
+          type="image/png"
+        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+        <link
+          rel="preload"
+          href="/fonts/GeistVF.woff"
+          as="font"
+          type="font/woff"
+          crossOrigin="anonymous"
+        />
+      </head>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        {children}
       </body>
     </html>
-  );
+  )
 }

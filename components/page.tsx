@@ -10,7 +10,13 @@ import ContactForm from './ContactForm'
 
 
 
-// Add this interface with your other types
+// Add interfaces at the top
+interface TrustBadge {
+  text: string;
+  icon: typeof FaGoogle | typeof FaShieldAlt | typeof FaLock | typeof FaBolt | typeof FaMapMarkerAlt | typeof FaHandshake | typeof FaUmbrella;
+  description: string;
+}
+
 interface Technology {
   name: string;
   icon?: string;
@@ -20,14 +26,6 @@ interface Technology {
   description: string;
 }
 
-// Add interface for trust badges
-interface TrustBadge {
-  text: string;
-  icon: typeof FaGoogle | typeof FaShieldAlt | typeof FaLock | typeof FaBolt | typeof FaMapMarkerAlt | typeof FaHandshake | typeof FaUmbrella;
-  description: string;
-}
-
-// Add these interfaces
 interface LocalBusiness {
   name: string;
   location: string;
@@ -42,6 +40,70 @@ interface IndustryTemplate {
   features: string[];
   description: string;
 }
+
+// Add the data arrays
+const trustBadges: TrustBadge[] = [
+  {
+    text: "5-Star Rated on Google",
+    icon: FaGoogle,
+    description: "We're chuffed to bits with our 5-star Google reviews! Our happy customers love what we do, and we think you will too."
+  },
+  // ... add other trust badges
+];
+
+const technologies: Technology[] = [
+  {
+    name: "Next.js",
+    icon: "/nextjs-icon.svg",
+    color: "from-black to-gray-800",
+    border: "border-gray-700",
+    description: "Next.js ensures your website loads instantly and ranks higher on Google."
+  },
+  // ... add other technologies
+];
+
+const websiteFeatures = [
+  {
+    category: "Core Features",
+    icon: FaCheck,
+    features: [
+      "Mobile-First Design",
+      "Google Maps Integration",
+      "Fast Loading Pages",
+      "Contact Forms",
+      "Social Media Links",
+      "SSL Security"
+    ]
+  },
+  // ... add other features
+];
+
+const industryTemplates: IndustryTemplate[] = [
+  {
+    industry: "Restaurants & Pubs",
+    icon: FaUtensils,
+    description: "Perfect for Somerset's fantastic food scene. Show off your dishes and connect with customers!",
+    features: [
+      "Online Menu Display",
+      "Food & Drink Gallery",
+      "Customer Reviews Integration",
+      "Table Booking System†",
+      "Special Events Calendar†"
+    ]
+  },
+  // ... add other templates
+];
+
+const localBusinesses: LocalBusiness[] = [
+  {
+    name: "Natalie Mae Hair Extensions",
+    location: "Dorset",
+    industry: "Beauty & Hair",
+    testimonial: "Nick and Dan have been amazing from start to finish. They've created exactly what I wanted and more.",
+    logo: "/natalie_mae_logo.png"
+  },
+  // ... add other businesses
+];
 
 // Keep just one features definition at the top with other interfaces
 interface Feature {
@@ -101,6 +163,8 @@ const ScrollIndicator = ({ text }: { text: string }) => (
           fill="none" 
           stroke="currentColor" 
           viewBox="0 0 24 24"
+          role="presentation"
+          aria-hidden="true"
         >
           <path 
             strokeLinecap="round" 
@@ -380,7 +444,7 @@ export default function BlockPage() {
                     index % 3 === 1 ? 'bg-blue-500' : 
                     'bg-green-500'
                   }`}>
-                    <feature.icon className="w-6 h-6 text-white" />
+                    <feature.icon className="w-6 h-6 text-white" role="presentation" aria-hidden="true" />
                   </div>
                   <h3 className="text-xl font-semibold mb-3 text-white">{feature.title}</h3>
                   <p className="text-gray-400">{feature.description}</p>
@@ -403,9 +467,9 @@ export default function BlockPage() {
                 <h3 className="text-3xl md:text-4xl font-bold mb-6">
                   JJ Mobile Valeting
                 </h3>
-                <p className="text-gray-400 text-lg mb-8">
+                <h4 className="text-gray-400 text-lg mb-8">
                   A complete digital transformation for a local business, resulting in:
-                </p>
+                </h4>
                 <div className="space-y-4">
                   {[
                     "300% increase in online bookings",
@@ -415,7 +479,7 @@ export default function BlockPage() {
                   ].map((feature, index) => (
                     <div key={index} className="flex items-start gap-3">
                       <div className="w-5 h-5 rounded-full bg-green-500/10 flex items-center justify-center mt-1 shrink-0">
-                        <FaCheck className="w-3 h-3 text-green-400" />
+                        <FaCheck className="w-3 h-3 text-green-400" role="presentation" aria-hidden="true" />
                       </div>
                       <p className="text-gray-300 text-lg">{feature}</p>
                     </div>
@@ -439,7 +503,7 @@ export default function BlockPage() {
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5 }}
                 viewport={{ once: true }}
-                className="relative aspect-video bg-gray-900 rounded-xl overflow-hidden border border-gray-800 shadow-2xl"
+                className="relative aspect-video bg-gray-950 rounded-xl overflow-hidden border border-gray-800 shadow-2xl"
               >
                 {/* Thumbnail with Logo */}
                 <Image
@@ -467,9 +531,9 @@ export default function BlockPage() {
                 >
                   <div className="bg-blue-500 p-4 rounded-full transform transition-transform duration-300 hover:scale-110 hover:bg-blue-600">
                     {isPlaying ? (
-                      <FaPause className="w-8 h-8 text-white" />
+                      <FaPause className="w-8 h-8 text-white" role="presentation" aria-hidden="true" />
                     ) : (
-                      <FaPlay className="w-8 h-8 text-white ml-1" />
+                      <FaPlay className="w-8 h-8 text-white ml-1" role="presentation" aria-hidden="true" />
                     )}
                   </div>
                 </button>
@@ -477,9 +541,9 @@ export default function BlockPage() {
                 {/* Video Description Overlay */}
                 {!isPlaying && (
                   <div className="absolute inset-x-0 bottom-0 p-6 text-center">
-                    <p className="text-white text-xl font-semibold">
+                    <h4 className="text-white text-xl font-semibold">
                       Hear from James about his experience
-                    </p>
+                    </h4>
                     <p className="text-gray-300 text-sm">
                       Click to watch the full testimonial
                     </p>
@@ -506,7 +570,7 @@ export default function BlockPage() {
         </AnimatedSection>
 
         {/* Trust Badges - with hover hint */}
-        <AnimatedSection className="py-16 px-4 bg-gray-900" id="trust">
+        <AnimatedSection className="py-16 px-4 bg-gray-950" id="trust">
           <div className="max-w-6xl mx-auto">
             <h2 className="text-center text-2xl md:text-3xl font-bold text-gray-200 mb-2">
               <span className="hidden md:inline">Hover to learn more ✨</span>
@@ -514,7 +578,7 @@ export default function BlockPage() {
             </h2>
             
             <div className="flex flex-col md:flex-row md:flex-wrap gap-3 mt-8 justify-center">
-              {trustBadges.map((badge, index) => {
+              {trustBadges.map((badge: TrustBadge, index: number) => {
                 const Icon = badge.icon;
                 return (
                   <div
@@ -533,7 +597,7 @@ export default function BlockPage() {
                         transition-all duration-300 cursor-pointer md:cursor-default"
                     >
                       <div className="flex flex-col items-center gap-2 text-center">
-                        <Icon className="w-5 h-5 text-blue-400" />
+                        <Icon className="w-5 h-5 text-blue-400" role="presentation" aria-hidden="true" />
                         <span className="text-gray-200 font-medium text-sm line-clamp-2">
                           {badge.text}
                         </span>
@@ -555,11 +619,11 @@ export default function BlockPage() {
 
                     {/* Desktop hover tooltip */}
                     <div className="hidden md:block absolute opacity-0 group-hover:opacity-100 
-                      bottom-full left-1/2 -translate-x-1/2 mb-2 p-3 rounded-lg bg-gray-800 
+                      bottom-full left-1/2 -translate-x-1/2 mb-2 p-3 rounded-lg bg-gray-950 
                       border border-gray-700 shadow-xl transition-opacity duration-200
                       pointer-events-none z-10 w-[240px]"
                     >
-                      <p className="text-gray-300 text-sm">
+                      <p className="text-gray-200 text-sm">
                         {badge.description}
                       </p>
                       <div className="absolute bottom-0 left-1/2 -mb-2 -ml-2 w-4 h-4 
@@ -627,6 +691,9 @@ export default function BlockPage() {
                         viewport={{ once: true }}
                         variants={numberCircleVariants}
                         className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-xl font-bold"
+                        role="heading"
+                        aria-level={3}
+                        aria-label={`Step ${index + 1}`}
                       >
                         {step.step}
                       </motion.div>
@@ -783,7 +850,7 @@ export default function BlockPage() {
             </h2>
             
             <div className="grid md:grid-cols-2 gap-16">
-              {websiteFeatures.map((category, index) => (
+              {websiteFeatures.map((category: { category: string; icon: any; features: string[] }, index: number) => (
                 <div key={index} className="bg-white/5 backdrop-blur-lg rounded-xl p-8 border border-gray-800">
                   <div className="flex items-center gap-4 mb-8">
                     <motion.div
@@ -793,13 +860,13 @@ export default function BlockPage() {
                       className={`${category.icon === FaRocket ? "text-blue-400" : "text-green-400"}
                         p-3 rounded-lg ${category.icon === FaRocket ? "bg-blue-500/10" : "bg-green-500/10"}`}
                     >
-                      <category.icon className="w-8 h-8" />
+                      <category.icon className="w-8 h-8" role="presentation" aria-hidden="true" />
                     </motion.div>
                     <h3 className="text-2xl font-semibold text-white">{category.category}</h3>
                   </div>
                   
                   <div className="grid grid-cols-2 gap-4">
-                    {category.features.map((feature, featureIndex) => (
+                    {category.features.map((feature: string, featureIndex: number) => (
                       <motion.div
                         key={featureIndex}
                         initial={{ opacity: 0, y: 10 }}
@@ -816,7 +883,7 @@ export default function BlockPage() {
                           className={`${category.icon === FaRocket ? "text-blue-400" : "text-green-400"}
                             transition-colors duration-200 group-hover:${category.icon === FaRocket ? "text-blue-300" : "text-green-300"}`}
                         >
-                          <category.icon className="w-4 h-4" />
+                          <FaCheck className="w-4 h-4" role="presentation" aria-hidden="true" />
                         </motion.div>
                         <span className="text-gray-400 group-hover:text-gray-300 transition-colors duration-200">
                           {feature}
@@ -841,20 +908,20 @@ export default function BlockPage() {
             </h2>
             
             <div className="grid md:grid-cols-2 gap-8">
-              {industryTemplates.map((template, index) => (
+              {industryTemplates.map((template: IndustryTemplate, index: number) => (
                 <div
                   key={index}
                   className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-gray-700"
                 >
                   <div className="flex items-center gap-4 mb-6">
-                    <template.icon className="w-8 h-8 text-blue-400" />
+                    <template.icon className="w-8 h-8 text-blue-400" role="presentation" aria-hidden="true" />
                     <h3 className="text-2xl font-semibold">{template.industry}</h3>
                   </div>
                   <p className="text-gray-300 mb-6">{template.description}</p>
                   <ul className="space-y-3">
-                    {template.features.map((feature, fIndex) => (
+                    {template.features.map((feature: string, fIndex: number) => (
                       <li key={fIndex} className="flex items-center gap-2">
-                        <FaCheck className="w-5 h-5 text-green-400 shrink-0" />
+                        <FaCheck className="w-5 h-5 text-green-400 shrink-0" role="presentation" aria-hidden="true" />
                         <span className="text-gray-300">{feature}</span>
                       </li>
                     ))}
@@ -910,28 +977,22 @@ export default function BlockPage() {
                   </div>
 
                   {/* Added decorative elements */}
-                  <div className="mt-8 flex justify-center gap-4 text-gray-400">
-                    <motion.span
-                      animate={{ y: [-5, 5, -5] }}
-                      transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                      className="text-3xl"
-                    >
-                      🎨
-                    </motion.span>
-                    <motion.span
-                      animate={{ y: [5, -5, 5] }}
-                      transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                      className="text-3xl"
-                    >
-                      💡
-                    </motion.span>
-                    <motion.span
-                      animate={{ y: [-5, 5, -5] }}
-                      transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                      className="text-3xl"
-                    >
-                      ✨
-                    </motion.span>
+                  <div className="mt-8 flex justify-center gap-4 text-gray-400" aria-hidden="true">
+                    <span 
+                      className="text-3xl" 
+                      role="presentation" 
+                      aria-hidden="true"
+                    >💰</span>
+                    <span 
+                      className="text-3xl" 
+                      role="presentation" 
+                      aria-hidden="true"
+                    >⚡</span>
+                    <span 
+                      className="text-3xl" 
+                      role="presentation" 
+                      aria-hidden="true"
+                    >✍️</span>
                   </div>
                 </div>
               </div>
@@ -950,7 +1011,7 @@ export default function BlockPage() {
             </h2>
             
             <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
-              {localBusinesses.map((business, index) => (
+              {localBusinesses.map((business: LocalBusiness, index: number) => (
                 <div
                   key={index}
                   className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-gray-700 hover:border-blue-500/50 transition-colors duration-300"
@@ -964,7 +1025,7 @@ export default function BlockPage() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <p className="text-lg font-semibold text-white">{business.name}</p>
+                    <h4 className="text-lg font-semibold text-white">{business.name}</h4>
                     <p className="text-sm text-gray-400">{business.location}</p>
                     <div className="text-yellow-400 flex gap-0.5">
                       {'★'.repeat(5)}
@@ -1061,7 +1122,7 @@ export default function BlockPage() {
                       "Contact Form Integration"
                     ].map((feature, index) => (
                       <li key={index} className="flex items-center gap-2 text-gray-300">
-                        <FaCheck className="w-4 h-4 text-green-400" />
+                        <FaCheck className="w-4 h-4 text-green-400" role="presentation" aria-hidden="true" />
                         {feature}
                       </li>
                     ))}
@@ -1165,7 +1226,11 @@ export default function BlockPage() {
                 >
                   <div className="grid grid-cols-3 items-center">
                     <div className="flex items-center gap-2">
-                      <span className="text-xl">{point.icon}</span>
+                      <span 
+                        className="text-xl" 
+                        role="presentation" 
+                        aria-hidden="true"
+                      >{point.icon}</span>
                       <div>
                         <h3 className="text-lg font-semibold text-white">{point.feature}</h3>
                         <p className="text-sm text-gray-400">{point.description}</p>
@@ -1209,7 +1274,9 @@ export default function BlockPage() {
             <div className="max-w-md mx-auto">
               <div className="bg-white/5 backdrop-blur-lg rounded-xl border border-blue-500/20 p-8 shadow-xl">
                 <h3 className="text-2xl font-bold mb-2">Just Hosting Package</h3>
-                <p className="text-3xl font-bold mb-6">£25/month <span className="text-sm font-normal text-gray-400">ex VAT</span></p>
+                <h4 className="text-3xl font-bold mb-6">
+                  £25/month <span className="text-sm font-normal text-gray-400">ex VAT</span>
+                </h4>
                 <ul className="space-y-4 mb-8">
                   {[
                     "Website Hosting",
@@ -1219,7 +1286,7 @@ export default function BlockPage() {
                     "Technical Support"
                   ].map((feature, featureIndex) => (
                     <li key={featureIndex} className="flex items-center gap-3">
-                      <FaCheck className="w-5 h-5 text-green-400 shrink-0" />
+                      <FaCheck className="w-5 h-5 text-green-400 shrink-0" role="presentation" aria-hidden="true" />
                       <span className="text-gray-300">{feature}</span>
                     </li>
                   ))}
@@ -1314,7 +1381,7 @@ export default function BlockPage() {
 
             {/* WhatsApp CTA */}
             <div className="mt-12 text-center bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-green-500/20">
-              <p className="text-lg mb-4">Have a question? We're just a message away!</p>
+              <h3 className="text-lg mb-4">Have a question? We're just a message away!</h3>
               <a 
                 href="https://wa.me/447432205615"
                 target="_blank"
@@ -1345,216 +1412,4 @@ export default function BlockPage() {
     </>
   )
 }
-
-
-interface TrustBadge {
-  text: string;
-  icon: typeof FaGoogle | typeof FaShieldAlt | typeof FaLock | typeof FaBolt | typeof FaMapMarkerAlt | typeof FaHandshake | typeof FaUmbrella;
-  description: string;
-}
-
-interface LocalBusiness {
-  name: string;
-  location: string;
-  industry: string;
-  testimonial: string;
-  logo: string;
-}
-
-interface IndustryTemplate {
-  industry: string;
-  icon: typeof FaStore | typeof FaHardHat | typeof FaUtensils | typeof FaBriefcase | typeof FaCut | typeof FaShoppingBag;
-  features: string[];
-  description: string;
-}
-
-interface Feature {
-  title: string;
-  description: string;
-  icon: typeof FaPalette | typeof FaRocket | typeof FaBolt | typeof FaMobile;
-}
-
-const trustBadges: TrustBadge[] = [
-  {
-    text: "5-Star Rated on Google",
-    icon: FaGoogle,
-    description: "We're chuffed to bits with our 5-star Google reviews! Our happy customers love what we do, and we think you will too. Pop over to Google to see what they're saying about us."
-  },
-  {
-    text: "GDPR Compliant",
-    icon: FaShieldAlt,
-    description: "Your data's safe as houses with us! We follow all the proper GDPR guidelines, so you can rest easy knowing your information is in good hands. No funny business here!"
-  },
-  {
-    text: "Secure Payments",
-    icon: FaLock,
-    description: "When it comes to payments, we don't mess about. We use top-notch secure payment systems, so you can focus on running your business while we handle the technical bits."
-  },
-  {
-    text: "Fast Response Time",
-    icon: FaBolt,
-    description: "Need a hand? We're quick off the mark! No waiting around for days - we'll get back to you in hours. Because nobody likes to be kept hanging, right?"
-  },
-  {
-    text: "Based in Somerset, England",
-    icon: FaMapMarkerAlt,
-    description: "Proudly Somerset born and bred! We love a good chin-wag over a cuppa, so pop by for a face-to-face chat about your website. We know our local business community inside out!"
-  },
-  {
-    text: "Fully Insured",
-    icon: FaUmbrella,
-    description: "Belt and braces, that's us! We're fully covered with Professional Indemnity and Public Liability insurance. Not that you'll need it, but isn't it nice to know it's there?"
-  },
-  {
-    text: "Community Focused",
-    icon: FaHandshake,
-    description: "We're big on giving back to our lovely Somerset community. From local charities to community groups, we love helping out with discounted rates and even free websites. Because that's what neighbours do!"
-  }
-];
-
-const technologies: Technology[] = [
-  { 
-    name: "Next.js", 
-    icon: "/nextjs-icon.svg", 
-    color: "from-black to-gray-800",
-    border: "border-gray-700",
-    description: "Next.js ensures your website loads instantly and ranks higher on Google. This means more visitors find your business and have a better experience, leading to higher conversion rates."
-  },
-  { 
-    name: "React", 
-    icon: "/react-icon.svg", 
-    color: "from-blue-500 to-blue-600",
-    border: "border-blue-400",
-    description: "Built with the same technology that powers Facebook, React makes your website incredibly responsive and smooth. Updates happen instantly, keeping your customers engaged and improving their experience."
-  },
-  { 
-    name: "Tailwind CSS", 
-    icon: "/tailwind-icon.svg", 
-    color: "from-cyan-500 to-cyan-600",
-    border: "border-cyan-400",
-    description: "Tailwind CSS ensures your website looks professional on all devices while keeping load times minimal. This means better mobile performance and higher engagement from your customers."
-  },
-  { 
-    name: "TypeScript", 
-    content: (
-      <svg viewBox="0 0 128 128" className="w-full h-full">
-        <rect width="100%" height="100%" rx="6" fill="white"/>
-        <path fill="#007ACC" d="M22.67 47h99.67v73.67H22.67z"/>
-        <path data-name="original" fill="#fff" d="M1.5 63.91v62.5h125v-125H1.5zm100.73-5a15.56 15.56 0 017.82 4.5 20.58 20.58 0 013 4c0 .16-5.4 3.81-8.69 5.85-.12.08-.6-.44-1.13-1.23a7.09 7.09 0 00-5.87-3.53c-3.79-.26-6.23 1.73-6.21 5a4.58 4.58 0 00.54 2.34c.83 1.73 2.38 2.76 7.24 4.86 8.95 3.85 12.78 6.39 15.16 10 2.66 4 3.25 10.46 1.45 15.24-2 5.2-6.9 8.73-13.83 9.9a38.32 38.32 0 01-9.52-.1 23 23 0 01-12.72-6.63c-1.15-1.27-3.39-4.58-3.25-4.82a9.34 9.34 0 011.15-.73L82 101l3.59-2.08.75 1.11a16.78 16.78 0 004.74 4.54c4 2.1 9.46 1.81 12.16-.62a5.43 5.43 0 00.69-6.92c-1-1.39-3-2.56-8.59-5-6.45-2.78-9.23-4.5-11.77-7.24a16.48 16.48 0 01-3.43-6.25 25 25 0 01-.22-8c1.33-6.23 6-10.58 12.82-11.87a31.66 31.66 0 019.49.26zm-29.34 5.24v5.12H56.66v46.23H45.15V69.26H28.88v-5a49.19 49.19 0 01.12-5.17C29.08 59 39 59 51 59h21.83z"/>
-      </svg>
-    ),
-    color: "from-blue-600 to-blue-700",
-    border: "border-blue-500",
-    description: "TypeScript makes your website more reliable and secure. This means fewer errors, better performance, and a consistently smooth experience for your customers."
-  }
-];
-
-const localBusinesses: LocalBusiness[] = [
-  {
-    name: "Natalie Mae Hair Extensions",
-    location: "Dorset",
-    industry: "Beauty & Hair",
-    testimonial: "Nick and Dan have been amazing from start to finish. They've created exactly what I wanted and more. The whole process has been so easy and stress free. I couldn't recommend them enough!",
-    logo: "/natalie_mae_logo.png"
-  },
-  {
-    name: "Stur Of The Moment",
-    location: "Sturminster Newton",
-    industry: "Retail",
-    testimonial: "Working with Nick and Dan was a pleasure from start to finish. They understood exactly what I wanted and delivered a website that exceeded my expectations.",
-    logo: "/stur_moment_logo.png"
-  },
-  {
-    name: "Hobs Bottom Forest School",
-    location: "Dorset",
-    industry: "Education",
-    testimonial: "The website is perfect and exactly what I wanted. Nick and Dan were so helpful throughout the whole process, making everything simple and straightforward.",
-    logo: "/hobs_bottom_logo.png"
-  },
-  {
-    name: "Hazelbury Bryan Hedgehog Rescue",
-    location: "Hazelbury Bryan",
-    industry: "Animal Welfare",
-    testimonial: "I went to Nick as I wanted to get together some information about hedgehogs and what to do if you find one during the day. I gave him the remit and in just a few days I had a website. Not only a website but a fantastic, well written and user friendly website. It was like magic. Dan and Nick make it all look so easy.",
-    logo: "/hedgehog_rescue_logo.png"
-  }
-];
-
-const industryTemplates: IndustryTemplate[] = [
-  {
-    industry: "Restaurants & Pubs",
-    icon: FaUtensils,
-    description: "Perfect for Somerset's fantastic food scene. Show off your dishes and connect with customers!",
-    features: [
-      "Online Menu Display",
-      "Food & Drink Gallery",
-      "Customer Reviews Integration",
-      "Table Booking System†",
-      "Special Events Calendar†"
-    ]
-  },
-  {
-    industry: "Trades & Services",
-    icon: FaHardHat,
-    description: "Ideal for builders, plumbers, and other trades. Let your work do the talking!",
-    features: [
-      "Project Gallery",
-      "Quick Quote Forms",
-      "Service Area Maps",
-      "Customer Testimonials",
-      "Emergency Contact Forms"
-    ]
-  },
-  {
-    industry: "Retail & Shopping",
-    icon: FaShoppingBag,
-    description: "Perfect for local shops and boutiques. Showcase your products and boost your local presence!",
-    features: [
-      "Product Galleries",
-      "Opening Hours Display",
-      "Location Maps",
-      "Special Offers Section",
-      "Social Media Integration"
-    ]
-  },
-  {
-    industry: "Health & Beauty",
-    icon: FaCut,
-    description: "Ideal for salons, spas, and wellness businesses. Showcase your services beautifully!",
-    features: [
-      "Service Price Lists",
-      "Before/After Gallery",
-      "Staff Profiles",
-      "Online Booking System†",
-      "Gift Voucher System†"
-    ]
-  }
-];
-
-const websiteFeatures = [
-  {
-    category: "Core Features",
-    icon: FaCheck,
-    features: [
-      "Mobile-First Design",
-      "Google Maps Integration",
-      "Fast Loading Pages",
-      "Contact Forms",
-      "Social Media Links",
-      "SSL Security"
-    ]
-  },
-  {
-    category: "Technical Benefits",
-    icon: FaRocket,
-    features: [
-      "Modern Tech Stack",
-      "Regular Backups",
-      "99.9% Uptime",
-      "CDN Delivery",
-      "Image Optimisation",
-      "Responsive Design"
-    ]
-  }
-];
 
