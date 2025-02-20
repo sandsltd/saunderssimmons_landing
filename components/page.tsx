@@ -41,6 +41,18 @@ interface IndustryTemplate {
   description: string;
 }
 
+interface Feature {
+  title: string;
+  description: string;
+  icon: typeof FaPalette | typeof FaRocket | typeof FaBolt | typeof FaMobile;
+}
+
+interface WebsiteFeatureCategory {
+  category: string;
+  icon: typeof FaCheck;
+  features: string[];
+}
+
 // Add the data arrays
 const trustBadges: TrustBadge[] = [
   {
@@ -62,7 +74,7 @@ const technologies: Technology[] = [
   // ... add other technologies
 ];
 
-const websiteFeatures = [
+const websiteFeatures: WebsiteFeatureCategory[] = [
   {
     category: "Core Features",
     icon: FaCheck,
@@ -104,13 +116,6 @@ const localBusinesses: LocalBusiness[] = [
   },
   // ... add other businesses
 ];
-
-// Keep just one features definition at the top with other interfaces
-interface Feature {
-  title: string;
-  description: string;
-  icon: typeof FaPalette | typeof FaRocket | typeof FaBolt | typeof FaMobile;
-}
 
 // Single features array with icons included
 const features: Feature[] = [
@@ -345,7 +350,7 @@ const Footer = () => (
       {/* Copyright */}
       <div className="mt-12 pt-8 border-t border-blue-500/20">
         <p className="text-center text-sm text-gray-500">
-          © {new Date().getFullYear()} Saunders & Simmons. All rights reserved.
+          {new Date().getFullYear()} Saunders & Simmons. All rights reserved.
         </p>
       </div>
     </div>
@@ -850,7 +855,7 @@ export default function BlockPage() {
             </h2>
             
             <div className="grid md:grid-cols-2 gap-16">
-              {websiteFeatures.map((category: { category: string; icon: any; features: string[] }, index: number) => (
+              {websiteFeatures.map((category: WebsiteFeatureCategory, index: number) => (
                 <div key={index} className="bg-white/5 backdrop-blur-lg rounded-xl p-8 border border-gray-800">
                   <div className="flex items-center gap-4 mb-8">
                     <motion.div
@@ -1412,4 +1417,3 @@ export default function BlockPage() {
     </>
   )
 }
-
