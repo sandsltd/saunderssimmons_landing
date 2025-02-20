@@ -72,8 +72,7 @@ export default function PrivacyPolicy() {
           </p>
           <div className="text-gray-700">
             <p>Saunders & Simmons Ltd</p>
-            <p>Email: [Your Contact Email]</p>
-            <p>Phone: [Your Contact Phone]</p>
+            <p>Email: hello@saunders-simmons.co.uk</p>
           </div>
         </section>
       </div>
